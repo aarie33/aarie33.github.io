@@ -1,0 +1,271 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import IndexTable from '../components/IndexTable.astro';
+import BrowserFrame from '../components/BrowserFrame.astro';
+import MetricGrid from '../components/MetricGrid.astro';
+import contact from '../data/contact.json';
+
+const allProjects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const previewProjects = allProjects.slice(0, 8);
+
+const featuredSlugs = ['dsc-telkomsel', 'sier-sport-arena-booking-app', 'fundraising'];
+const featuredProjects = featuredSlugs
+  .map((slug) => allProjects.find((p) => p.id === slug))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+const years = allProjects.map((p) => p.data.year);
+const minYear = Math.min(...years);
+const maxYear = Math.max(...years);
+const yearsExperience = maxYear - minYear + 1;
+const domains = [...new Set(allProjects.map((p) => p.data.domain))];
+
+const stackCounts = new Map<string, number>();
+for (const p of allProjects) {
+  for (const s of p.data.stack) {
+    stackCounts.set(s, (stackCounts.get(s) ?? 0) + 1);
+  }
+}
+
+const capability = [
+  { label: 'Backend', items: ['Laravel', 'CodeIgniter', 'HMVC', 'NestJS', 'Node.js', 'Go', 'Java'] },
+  { label: 'Frontend', items: ['Vue.js', 'Inertia.js', 'React', 'Nuxt.js', 'TypeScript'] },
+  { label: 'Mobile', items: ['Kotlin', 'Flutter', 'React Native', 'PWA'] },
+  { label: 'Infra & Data', items: ['AWS', 'Kafka'] },
+]
+  .map((group) => ({
+    label: group.label,
+    items: group.items
+      .filter((item) => stackCounts.has(item))
+      .map((item) => ({ name: item, count: stackCounts.get(item) ?? 0 }))
+      .sort((a, b) => b.count - a.count),
+  }))
+  .filter((group) => group.items.length > 0);
+---
+
+<Base
+  title="Ahmad Syamsul Arifin — Backend / Fullstack Developer"
+  description="Dev Lead and backend developer with 35 shipped projects spanning government, healthcare, e-commerce, and enterprise telecom systems."
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Ahmad Syamsul Arifin',
+    jobTitle: 'Dev Lead / Backend Developer',
+    email: contact.email,
+    url: 'https://aarie33.github.io',
+    sameAs: [contact.github, contact.linkedin],
+  }}
+>
+  <section class="hero shell">
+    <p class="mono hero__eyebrow" data-hero-item style="animation-delay:0ms">P-000 / Portfolio</p>
+    <h1 class="display hero__thesis" data-hero-item style="animation-delay:60ms">
+      Backend-first engineer<br />who ships fullstack.
+    </h1>
+    <p class="hero__sub mono" data-hero-item style="animation-delay:140ms">
+      Ahmad Syamsul Arifin · Dev Lead / Backend Developer · {yearsExperience}+ years ·
+      {allProjects.length} shipped projects · {domains.length} domains including {domains.slice(0, 3).join(', ')}
+    </p>
+    <div class="hero__cta" data-hero-item style="animation-delay:200ms">
+      <a href="/projects/" class="btn btn-primary">View the full index</a>
+      <a href="/contact/" class="btn">Get in touch</a>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="section__head">
+      <h2 class="display section__title">The Index</h2>
+      <a href="/projects/" class="link-underline mono">All {allProjects.length} projects &rarr;</a>
+    </div>
+    <IndexTable projects={previewProjects} id="home-index-preview" />
+  </section>
+
+  <section class="section shell">
+    <div class="section__head" data-reveal>
+      <h2 class="display section__title">Featured work</h2>
+    </div>
+    <div class="featured-grid">
+      {featuredProjects.map((project) => (
+        <a href={`/projects/${project.id}/`} class="featured-card" data-reveal>
+          <BrowserFrame
+            src={project.data.cover}
+            caption={project.data.tagline}
+            sizes="(min-width: 1024px) 380px, 100vw"
+            showCaption={false}
+          />
+          <div class="featured-card__body">
+            <p class="mono featured-card__meta">{project.data.id} · {project.data.year} · {project.data.domain}</p>
+            <h3 class="display featured-card__title">{project.data.title}</h3>
+            <p class="featured-card__tagline">{project.data.tagline}</p>
+            {project.data.metrics.length > 0 && <MetricGrid metrics={project.data.metrics.slice(0, 2)} />}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="section__head" data-reveal>
+      <h2 class="display section__title">Capability</h2>
+    </div>
+    <div class="capability-grid" data-reveal>
+      {capability.map((group) => (
+        <div class="capability-group">
+          <h3 class="mono capability-group__label">{group.label}</h3>
+          <ul class="capability-group__items">
+            {group.items.map((item) => (
+              <li>
+                <span>{item.name}</span>
+                <span class="mono capability-group__count">{item.count}&times;</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section shell cta-band" data-reveal>
+    <h2 class="display cta-band__title">35 projects.<br />One archive.</h2>
+    <div class="hero__cta">
+      <a href="/projects/" class="btn btn-primary">Browse the index</a>
+      <a href="/about/" class="btn">About</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: var(--sp-24);
+    padding-bottom: var(--sp-16);
+  }
+
+  .hero__eyebrow {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    margin-bottom: var(--sp-4);
+  }
+
+  .hero__thesis {
+    font-size: var(--step-4);
+    margin-bottom: var(--sp-6);
+    max-width: 16ch;
+  }
+
+  .hero__sub {
+    color: var(--text-muted);
+    font-size: var(--step-0);
+    max-width: 62ch;
+    margin-bottom: var(--sp-8);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+
+  .section__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+  }
+
+  .section__title {
+    font-size: var(--step-2);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--sp-8);
+  }
+
+  .featured-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .featured-card :global(.browser-frame img) {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .featured-card__meta {
+    font-size: var(--step--1);
+    color: var(--text-faint);
+    margin-bottom: var(--sp-1);
+  }
+
+  .featured-card__title {
+    font-size: var(--step-2);
+    color: var(--text);
+    margin-bottom: var(--sp-2);
+  }
+
+  .featured-card__tagline {
+    color: var(--text-muted);
+    margin-bottom: var(--sp-4);
+  }
+
+  .capability-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--sp-8);
+  }
+
+  .capability-group__label {
+    font-size: var(--step--1);
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .capability-group__items {
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .capability-group__items li {
+    display: flex;
+    justify-content: space-between;
+    padding-block: var(--sp-1);
+    color: var(--text);
+  }
+
+  .capability-group__count {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+  }
+
+  .cta-band {
+    text-align: center;
+    border-top: 1px solid var(--rule);
+    padding-block: var(--sp-24);
+  }
+
+  .cta-band__title {
+    font-size: var(--step-3);
+    margin-bottom: var(--sp-8);
+  }
+
+  .cta-band .hero__cta {
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    .hero__thesis {
+      font-size: var(--step-3);
+      max-width: none;
+    }
+  }
+</style>

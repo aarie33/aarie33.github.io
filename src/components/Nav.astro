@@ -1,0 +1,76 @@
+---
+const links = [
+  { href: '/projects/', label: 'Index' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
+];
+const path = Astro.url.pathname;
+---
+
+<header class="nav">
+  <div class="shell nav__inner">
+    <a href="/" class="nav__brand mono">
+      <span class="nav__id">P-000</span> ARIE
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav__links mono">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="link-underline"
+                aria-current={path.startsWith(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(16, 19, 24, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav__brand {
+    font-weight: 500;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .nav__id {
+    color: var(--text-faint);
+  }
+
+  .nav__links {
+    display: flex;
+    gap: var(--sp-6);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .nav__links a[aria-current='page'] {
+    color: var(--amber);
+  }
+</style>

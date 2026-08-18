@@ -1,0 +1,240 @@
+---
+interface Props {
+  stacks: string[];
+  roles: string[];
+  domains: string[];
+  minYear: number;
+  maxYear: number;
+  total: number;
+}
+const { stacks, roles, domains, minYear, maxYear, total } = Astro.props;
+---
+
+<div class="filter-bar" id="filter-bar">
+  <div class="filter-bar__top">
+    <label class="filter-bar__search">
+      <span class="mono filter-bar__search-label">Search</span>
+      <input
+        type="search"
+        id="filter-search"
+        name="search"
+        placeholder="Name, tagline, or stack…"
+        autocomplete="off"
+      />
+    </label>
+    <div class="filter-bar__years mono">
+      <label>
+        From
+        <select id="filter-year-min" name="yearMin">
+          {Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i).map((y) => (
+            <option value={y}>{y}</option>
+          ))}
+        </select>
+      </label>
+      <label>
+        To
+        <select id="filter-year-max" name="yearMax">
+          {Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i).map((y) => (
+            <option value={y} selected={y === maxYear}>{y}</option>
+          ))}
+        </select>
+      </label>
+    </div>
+    <button type="button" id="filter-clear" class="mono filter-bar__clear">Clear filters</button>
+  </div>
+
+  <fieldset class="filter-bar__group">
+    <legend class="mono">Role</legend>
+    <div class="filter-bar__chips" data-filter-group="role">
+      {roles.map((role) => (
+        <label class="chip">
+          <input type="checkbox" name="role" value={role.toLowerCase()} />
+          <span>{role}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <fieldset class="filter-bar__group">
+    <legend class="mono">Domain</legend>
+    <div class="filter-bar__chips" data-filter-group="domain">
+      {domains.map((domain) => (
+        <label class="chip">
+          <input type="checkbox" name="domain" value={domain.toLowerCase()} />
+          <span>{domain}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <fieldset class="filter-bar__group">
+    <legend class="mono">Stack</legend>
+    <div class="filter-bar__chips" data-filter-group="stack">
+      {stacks.map((stack) => (
+        <label class="chip">
+          <input type="checkbox" name="stack" value={stack.toLowerCase()} />
+          <span>{stack}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <p class="mono filter-bar__count" id="filter-count" role="status" aria-live="polite">
+    Showing {total} of {total}
+  </p>
+</div>
+
+<style>
+  .filter-bar {
+    position: sticky;
+    top: 64px;
+    z-index: 40;
+    background: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding-block: var(--sp-4);
+    display: grid;
+    gap: var(--sp-4);
+  }
+
+  .filter-bar__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .filter-bar__search {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .filter-bar__search-label {
+    font-size: var(--step--1);
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .filter-bar__search input {
+    background: var(--ink-raised);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-2) var(--sp-3);
+    color: var(--text);
+    min-height: 44px;
+  }
+
+  .filter-bar__search input:focus-visible {
+    border-color: var(--amber);
+  }
+
+  .filter-bar__years {
+    display: flex;
+    gap: var(--sp-4);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+
+  .filter-bar__years label {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .filter-bar__years select {
+    background: var(--ink-raised);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-1) var(--sp-2);
+    color: var(--text);
+    min-height: 36px;
+  }
+
+  .filter-bar__clear {
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-2) var(--sp-3);
+    min-height: 44px;
+  }
+
+  .filter-bar__clear:hover {
+    border-color: var(--amber-dim);
+    color: var(--amber);
+  }
+
+  .filter-bar__group {
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+  }
+
+  .filter-bar__group legend {
+    font-size: var(--step--1);
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0;
+    float: left;
+    margin-right: var(--sp-2);
+  }
+
+  .filter-bar__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: var(--sp-1) var(--sp-2);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color var(--dur-fast), color var(--dur-fast), background var(--dur-fast);
+  }
+
+  .chip input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .chip:has(input:checked) {
+    border-color: var(--amber-dim);
+    color: var(--amber);
+    background: var(--amber-wash);
+  }
+
+  .chip:has(input:focus-visible) {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  .filter-bar__count {
+    font-size: var(--step--1);
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 767px) {
+    .filter-bar {
+      top: 0;
+    }
+  }
+</style>

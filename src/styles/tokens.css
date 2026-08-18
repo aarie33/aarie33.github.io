@@ -1,0 +1,55 @@
+:root {
+  /* Surfaces */
+  --ink: #101318;
+  --ink-raised: #171b22;
+  --ink-sunken: #0b0d11;
+  --rule: #262c36;
+  --rule-hover: #3a424f;
+
+  /* Text */
+  --text: #e9ebef;
+  --text-muted: #8e96a3;
+  --text-faint: #5b6371;
+
+  /* Accent — single source, never used decoratively */
+  --amber: #f2c14e;
+  --amber-dim: #8a6d22;
+  --amber-wash: rgba(242, 193, 78, 0.08);
+
+  /* Typography */
+  --font-display: 'Anton', 'Archivo Condensed', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.13rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.25rem);
+  --step-3: clamp(2rem, 1.6rem + 2vw, 3.4rem);
+  --step-4: clamp(2.6rem, 1.8rem + 4vw, 5.5rem);
+
+  /* Spacing scale (4px base) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-24: 96px;
+  --sp-32: 128px;
+
+  /* Layout */
+  --content-max: 1240px;
+  --gutter: 24px;
+  --gutter-mobile: 16px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+}

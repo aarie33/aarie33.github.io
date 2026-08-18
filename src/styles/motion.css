@@ -1,0 +1,65 @@
+/* Scroll reveal — applied via IntersectionObserver in Reveal.astro's script */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 500ms var(--ease-out-expo), transform 500ms var(--ease-out-expo);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero load sequence */
+[data-hero-item] {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: hero-in var(--dur-slow) var(--ease-out-expo) forwards;
+}
+
+@keyframes hero-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Index row stagger on load */
+[data-index-row] {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: row-in var(--dur-base) var(--ease-out-expo) forwards;
+}
+
+@keyframes row-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Filter transitions */
+[data-index-row].is-hidden {
+  display: none;
+}
+
+[data-index-row].is-filtering-out {
+  animation: row-out 120ms ease-in forwards;
+}
+
+@keyframes row-out {
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-hero-item],
+  [data-index-row] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

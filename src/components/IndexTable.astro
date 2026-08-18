@@ -1,0 +1,137 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import IndexRow from './IndexRow.astro';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  showDomain?: boolean;
+  id?: string;
+}
+const { projects, showDomain = true, id = 'the-index' } = Astro.props;
+---
+
+<div class="index-table" id={id}>
+  <div class="index-table__head mono" aria-hidden="true">
+    <span>ID</span>
+    <span>Year</span>
+    <span>Project</span>
+    <span>Role</span>
+    {showDomain && <span>Domain</span>}
+    <span>Stack</span>
+  </div>
+  <ul class="index-table__rows" data-index-rows>
+    {projects.map((project, i) => (
+      <IndexRow project={project} showDomain={showDomain} index={i} />
+    ))}
+  </ul>
+  <div class="index-table__thumb" data-index-thumb aria-hidden="true">
+    <img data-index-thumb-img alt="" width="240" height="150" />
+  </div>
+</div>
+
+<style>
+  .index-table {
+    position: relative;
+  }
+
+  .index-table__head {
+    display: grid;
+    grid-template-columns: 3.5rem 3.5rem 1fr 9rem 8rem 12rem;
+    gap: var(--sp-4);
+    padding: var(--sp-2) var(--sp-4);
+    font-size: var(--step--1);
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--rule-hover);
+  }
+
+  .index-table__rows > :global(li) {
+    animation: row-in var(--dur-base) var(--ease-out-expo) both;
+    /* capped so the stagger never delays readability past ~600ms */
+    animation-delay: calc(min(var(--i, 0), 15) * 40ms);
+  }
+
+  .index-table__thumb {
+    position: fixed;
+    z-index: 60;
+    width: 240px;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 180ms var(--ease-out-expo), transform 180ms var(--ease-out-expo);
+  }
+
+  .index-table__thumb.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .index-table__thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--rule-hover);
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7);
+    background: var(--ink-sunken);
+  }
+
+  @media (max-width: 1023px) {
+    .index-table__thumb {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .index-table__head {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .index-table__rows > div {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  function initIndexTable(root: HTMLElement) {
+    const thumb = root.querySelector<HTMLElement>('[data-index-thumb]');
+    const thumbImg = root.querySelector<HTMLImageElement>('[data-index-thumb-img]');
+    const rows = root.querySelectorAll<HTMLElement>('[data-index-row]');
+    if (!thumb || !thumbImg) return;
+
+    const isDesktop = () => window.matchMedia('(min-width: 1024px)').matches;
+
+    function show(row: HTMLElement) {
+      if (!isDesktop() || !thumb || !thumbImg) return;
+      const src = row.querySelector<HTMLImageElement>('[data-thumb-src] img');
+      if (!src) return;
+      thumbImg.src = src.currentSrc || src.src;
+      const rect = row.getBoundingClientRect();
+      const top = Math.min(Math.max(rect.top - 60, 16), window.innerHeight - 180);
+      thumb!.style.top = `${top}px`;
+      thumb!.style.left = `${Math.min(rect.right + 16, window.innerWidth - 260)}px`;
+      thumb!.classList.add('is-visible');
+    }
+
+    function hide() {
+      thumb?.classList.remove('is-visible');
+    }
+
+    rows.forEach((row) => {
+      row.addEventListener('pointerenter', () => show(row));
+      row.addEventListener('pointerleave', hide);
+      row.addEventListener('focusin', () => show(row));
+      row.addEventListener('focusout', hide);
+    });
+  }
+
+  function init() {
+    document.querySelectorAll<HTMLElement>('.index-table').forEach(initIndexTable);
+  }
+
+  document.addEventListener('astro:page-load', init);
+</script>

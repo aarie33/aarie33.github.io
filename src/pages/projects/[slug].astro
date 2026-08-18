@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import Featured from '../../layouts/project/Featured.astro';
+import Standard from '../../layouts/project/Standard.astro';
+import Compact from '../../layouts/project/Compact.astro';
+
+export async function getStaticPaths() {
+  const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+    (a, b) => a.data.order - b.data.order,
+  );
+
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      prev: i > 0 ? projects[i - 1] : null,
+      next: i < projects.length - 1 ? projects[i + 1] : null,
+    },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+const { Content } = await render(project);
+
+const layouts = { featured: Featured, standard: Standard, compact: Compact } as const;
+const Layout = layouts[project.data.tier];
+---
+
+<Layout project={project} prev={prev} next={next}>
+  <Content />
+</Layout>

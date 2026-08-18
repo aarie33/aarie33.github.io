@@ -1,0 +1,136 @@
+---
+import Base from '../../layouts/Base.astro';
+import contact from '../../data/contact.json';
+
+const [emailUser, emailDomain] = contact.email.split('@');
+const waDigits = contact.phone.replace(/\D/g, '');
+const waHref = `https://wa.me/${waDigits}`;
+---
+
+<Base
+  title="Contact — Ahmad Syamsul Arifin"
+  description="Get in touch by email, LinkedIn, GitHub, or WhatsApp."
+>
+  <div class="shell contact">
+    <header class="contact__header" data-hero-item style="animation-delay:0ms">
+      <p class="mono contact__eyebrow">Contact</p>
+      <h1 class="display contact__title">Let's talk about<br />what you're building.</h1>
+    </header>
+
+    <ul class="contact-list" data-reveal>
+      <li class="contact-list__item">
+        <span class="mono contact-list__label">Email</span>
+        <a
+          href="#"
+          class="contact-list__value link-underline"
+          id="contact-email"
+          data-user={emailUser}
+          data-domain={emailDomain}
+        >
+          Loading…
+        </a>
+      </li>
+      <li class="contact-list__item">
+        <span class="mono contact-list__label">WhatsApp</span>
+        <a href={waHref} class="contact-list__value link-underline" target="_blank" rel="noreferrer">
+          {contact.phone}
+        </a>
+      </li>
+      <li class="contact-list__item">
+        <span class="mono contact-list__label">LinkedIn</span>
+        <a href={contact.linkedin} class="contact-list__value link-underline" target="_blank" rel="noreferrer">
+          linkedin.com/in/aarie33
+        </a>
+      </li>
+      <li class="contact-list__item">
+        <span class="mono contact-list__label">GitHub</span>
+        <a href={contact.github} class="contact-list__value link-underline" target="_blank" rel="noreferrer">
+          github.com/aarie33
+        </a>
+      </li>
+    </ul>
+
+    <p class="contact__note mono" data-reveal>
+      No contact form — direct channels only. Fastest response is usually email or WhatsApp.
+    </p>
+  </div>
+</Base>
+
+<script>
+  function deobfuscateEmail() {
+    const el = document.getElementById('contact-email') as HTMLAnchorElement | null;
+    if (!el) return;
+    const user = el.dataset.user;
+    const domain = el.dataset.domain;
+    if (!user || !domain) return;
+    const address = `${user}@${domain}`;
+    el.href = `mailto:${address}`;
+    el.textContent = address;
+  }
+  document.addEventListener('astro:page-load', deobfuscateEmail);
+</script>
+
+<style>
+  .contact {
+    padding-top: var(--sp-16);
+    padding-bottom: var(--sp-24);
+    max-width: 720px;
+  }
+
+  .contact__header {
+    margin-bottom: var(--sp-12);
+  }
+
+  .contact__eyebrow {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    margin-bottom: var(--sp-2);
+  }
+
+  .contact__title {
+    font-size: var(--step-3);
+  }
+
+  .contact-list {
+    display: grid;
+    gap: 0;
+    margin-bottom: var(--sp-8);
+  }
+
+  .contact-list__item {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    align-items: center;
+    gap: var(--sp-4);
+    padding-block: var(--sp-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .contact-list__item:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .contact-list__label {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .contact-list__value {
+    font-size: var(--step-1);
+    color: var(--text);
+  }
+
+  .contact__note {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+  }
+
+  @media (max-width: 480px) {
+    .contact-list__item {
+      grid-template-columns: 1fr;
+      gap: var(--sp-1);
+    }
+  }
+</style>

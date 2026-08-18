@@ -1,0 +1,72 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  prev: CollectionEntry<'projects'> | null;
+  next: CollectionEntry<'projects'> | null;
+}
+const { prev, next } = Astro.props;
+---
+
+<nav class="prev-next" aria-label="More projects">
+  {prev ? (
+    <a href={`/projects/${prev.id}/`} class="prev-next__link">
+      <span class="mono prev-next__dir">&larr; Previous</span>
+      <span class="prev-next__title display">{prev.data.title}</span>
+    </a>
+  ) : <span></span>}
+  {next ? (
+    <a href={`/projects/${next.id}/`} class="prev-next__link prev-next__link--next">
+      <span class="mono prev-next__dir">Next &rarr;</span>
+      <span class="prev-next__title display">{next.data.title}</span>
+    </a>
+  ) : <span></span>}
+</nav>
+
+<style>
+  .prev-next {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-4);
+    border-top: 1px solid var(--rule);
+    padding-block: var(--sp-8);
+    margin-top: var(--sp-16);
+  }
+
+  .prev-next__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding: var(--sp-4);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    transition: border-color var(--dur-fast), background var(--dur-fast);
+  }
+
+  .prev-next__link:hover,
+  .prev-next__link:focus-visible {
+    border-color: var(--amber-dim);
+    background: var(--ink-raised);
+  }
+
+  .prev-next__link--next {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .prev-next__dir {
+    font-size: var(--step--1);
+    color: var(--text-faint);
+  }
+
+  .prev-next__title {
+    font-size: var(--step-1);
+    color: var(--text);
+  }
+
+  @media (max-width: 767px) {
+    .prev-next {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

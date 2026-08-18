@@ -1,0 +1,17 @@
+---
+interface Props {
+  label: string;
+  active?: boolean;
+}
+const { label, active = false } = Astro.props;
+---
+
+<span class="badge mono" class:list={[{ 'badge--active': active }]}>{label}</span>
+
+<style>
+  .badge--active {
+    color: var(--amber);
+    border-color: var(--amber-dim);
+    background: var(--amber-wash);
+  }
+</style>

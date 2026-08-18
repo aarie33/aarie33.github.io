@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  caption: string;
+  priority?: boolean;
+  sizes?: string;
+  showCaption?: boolean;
+}
+const {
+  src,
+  caption,
+  priority = false,
+  sizes = '(min-width: 1024px) 800px, 100vw',
+  showCaption = true,
+} = Astro.props;
+---
+
+<figure class="browser-frame">
+  <div class="browser-frame__bar" aria-hidden="true">
+    <span class="browser-frame__dot"></span>
+    <span class="browser-frame__dot"></span>
+    <span class="browser-frame__dot"></span>
+    <span class="browser-frame__url"></span>
+  </div>
+  <Image
+    src={src}
+    alt={caption}
+    widths={[480, 800, 1200, 1600]}
+    sizes={sizes}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : 'auto'}
+    format="webp"
+  />
+  {showCaption && <figcaption>{caption}</figcaption>}
+</figure>

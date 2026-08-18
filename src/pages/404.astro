@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="404 — Not found" description="This page doesn't exist." noindex>
+  <div class="shell not-found">
+    <p class="mono not-found__code">P-404</p>
+    <h1 class="display not-found__title">Not in the archive.</h1>
+    <p class="not-found__text">The page you're looking for doesn't exist, or has moved.</p>
+    <div class="not-found__cta">
+      <a href="/" class="btn btn-primary">Back home</a>
+      <a href="/projects/" class="btn">Browse the index</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .not-found {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-block: var(--sp-24);
+  }
+
+  .not-found__code {
+    color: var(--amber);
+    font-size: var(--step-0);
+    margin-bottom: var(--sp-4);
+  }
+
+  .not-found__title {
+    font-size: var(--step-4);
+    margin-bottom: var(--sp-4);
+  }
+
+  .not-found__text {
+    color: var(--text-muted);
+    margin-bottom: var(--sp-8);
+  }
+
+  .not-found__cta {
+    display: flex;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+  }
+</style>

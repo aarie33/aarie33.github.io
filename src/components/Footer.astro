@@ -1,0 +1,43 @@
+---
+import contact from '../data/contact.json';
+---
+
+<footer class="footer">
+  <div class="shell footer__inner">
+    <p class="mono footer__meta">Ahmad Syamsul Arifin — Backend / Fullstack Developer</p>
+    <ul class="footer__links mono">
+      <li><a href={`mailto:${contact.email}`} class="link-underline">Email</a></li>
+      <li><a href={contact.github} class="link-underline" target="_blank" rel="noreferrer">GitHub</a></li>
+      <li><a href={contact.linkedin} class="link-underline" target="_blank" rel="noreferrer">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--rule);
+    padding-block: var(--sp-8);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+
+  .footer__meta {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+  }
+
+  .footer__links {
+    display: flex;
+    gap: var(--sp-6);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+</style>

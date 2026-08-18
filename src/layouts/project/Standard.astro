@@ -1,0 +1,137 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from '../Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ProjectMeta from '../../components/ProjectMeta.astro';
+import BrowserFrame from '../../components/BrowserFrame.astro';
+import MetricGrid from '../../components/MetricGrid.astro';
+import PrevNext from '../../components/PrevNext.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  prev: CollectionEntry<'projects'> | null;
+  next: CollectionEntry<'projects'> | null;
+}
+const { project, prev, next } = Astro.props;
+const { data } = project;
+---
+
+<Base
+  title={`${data.title} — Ahmad Syamsul Arifin`}
+  description={data.tagline}
+  image={data.cover.src}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: data.title,
+    description: data.tagline,
+    dateCreated: String(data.year),
+    creator: { '@type': 'Person', name: 'Ahmad Syamsul Arifin' },
+    keywords: data.stack.join(', '),
+  }}
+>
+  <div class="shell">
+    <Breadcrumb title={data.title} />
+
+    <header class="project-hero">
+      <div class="project-hero__meta mono">
+        <span class="project-hero__id">{data.id}</span>
+        <span>{data.year}</span>
+        <span>{data.domain}</span>
+      </div>
+      <h1 class="display project-hero__title" transition:name={`project-title-${project.id}`}>{data.title}</h1>
+      <p class="project-hero__tagline">{data.tagline}</p>
+      <div class="project-hero__roles">
+        {data.roles.map((r) => <span class="badge mono">{r}</span>)}
+      </div>
+    </header>
+
+    <div class="project-layout">
+      <BrowserFrame
+        src={data.cover}
+        caption={data.tagline}
+        priority
+        sizes="(min-width: 768px) 720px, 100vw"
+        showCaption={false}
+      />
+
+      <div class="project-layout__meta" data-reveal>
+        <ProjectMeta data={data} mode="inline" />
+      </div>
+
+      <div class="prose" data-reveal>
+        <slot />
+        {data.metrics.length > 0 && (
+          <>
+            <h2>Impact</h2>
+            <MetricGrid metrics={data.metrics} />
+          </>
+        )}
+      </div>
+
+      {data.screenshots.length > 0 && (
+        <div class="project-layout__gallery">
+          {data.screenshots.map((shot) => <BrowserFrame src={shot.src} caption={shot.caption} />)}
+        </div>
+      )}
+    </div>
+
+    <PrevNext prev={prev} next={next} />
+  </div>
+</Base>
+
+<style>
+  .project-hero {
+    padding-top: var(--sp-8);
+    padding-bottom: var(--sp-8);
+  }
+
+  .project-hero__meta {
+    display: flex;
+    gap: var(--sp-4);
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    margin-bottom: var(--sp-3);
+  }
+
+  .project-hero__id {
+    color: var(--amber);
+  }
+
+  .project-hero__title {
+    font-size: var(--step-3);
+    margin-bottom: var(--sp-3);
+  }
+
+  .project-hero__tagline {
+    font-size: var(--step-1);
+    color: var(--text-muted);
+    max-width: 60ch;
+    margin-bottom: var(--sp-3);
+  }
+
+  .project-hero__roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .project-layout {
+    display: grid;
+    gap: var(--sp-8);
+    max-width: 800px;
+    margin: 0 auto;
+    padding-block: var(--sp-8);
+  }
+
+  .project-layout__meta {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding-block: var(--sp-4);
+  }
+
+  .project-layout__gallery {
+    display: grid;
+    gap: var(--sp-6);
+  }
+</style>

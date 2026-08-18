@@ -1,0 +1,105 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import StackBadge from './StackBadge.astro';
+
+interface Props {
+  data: CollectionEntry<'projects'>['data'];
+  mode?: 'sidebar' | 'inline';
+}
+const { data, mode = 'sidebar' } = Astro.props;
+---
+
+<div class={`project-meta project-meta--${mode}`}>
+  {data.client && (
+    <div class="project-meta__row">
+      <span class="mono project-meta__label">Client</span>
+      <span class="project-meta__value">{data.client}</span>
+    </div>
+  )}
+  {data.duration && (
+    <div class="project-meta__row">
+      <span class="mono project-meta__label">Duration</span>
+      <span class="project-meta__value">{data.duration}</span>
+    </div>
+  )}
+  {data.teamSize && (
+    <div class="project-meta__row">
+      <span class="mono project-meta__label">Team size</span>
+      <span class="project-meta__value">{data.teamSize}</span>
+    </div>
+  )}
+  {data.architecture && (
+    <div class="project-meta__row">
+      <span class="mono project-meta__label">Architecture</span>
+      <span class="project-meta__value">{data.architecture}</span>
+    </div>
+  )}
+  <div class="project-meta__row project-meta__row--stack">
+    <span class="mono project-meta__label">Stack</span>
+    <div class="project-meta__badges">
+      {data.stack.map((s) => <StackBadge label={s} />)}
+    </div>
+  </div>
+  {(data.liveUrl || data.repoUrl) && (
+    <div class="project-meta__links">
+      {data.liveUrl && (
+        <a href={data.liveUrl} class="btn" target="_blank" rel="noreferrer">
+          Live site &#8599;
+        </a>
+      )}
+      {data.repoUrl && (
+        <a href={data.repoUrl} class="btn" target="_blank" rel="noreferrer">
+          Repository &#8599;
+        </a>
+      )}
+    </div>
+  )}
+</div>
+
+<style>
+  .project-meta {
+    display: grid;
+    gap: var(--sp-4);
+  }
+
+  .project-meta--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-6);
+    align-items: flex-start;
+  }
+
+  .project-meta__row {
+    display: grid;
+    gap: var(--sp-1);
+  }
+
+  .project-meta--inline .project-meta__row {
+    min-width: 120px;
+  }
+
+  .project-meta__label {
+    font-size: var(--step--1);
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .project-meta__value {
+    color: var(--text);
+    font-size: var(--step-0);
+  }
+
+  .project-meta__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .project-meta__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    padding-top: var(--sp-2);
+  }
+</style>

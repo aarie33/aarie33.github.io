@@ -1,0 +1,157 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from '../Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ProjectMeta from '../../components/ProjectMeta.astro';
+import BrowserFrame from '../../components/BrowserFrame.astro';
+import MetricGrid from '../../components/MetricGrid.astro';
+import PrevNext from '../../components/PrevNext.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  prev: CollectionEntry<'projects'> | null;
+  next: CollectionEntry<'projects'> | null;
+}
+const { project, prev, next } = Astro.props;
+const { data } = project;
+---
+
+<Base
+  title={`${data.title} — Ahmad Syamsul Arifin`}
+  description={data.tagline}
+  image={data.cover.src}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: data.title,
+    description: data.tagline,
+    dateCreated: String(data.year),
+    creator: { '@type': 'Person', name: 'Ahmad Syamsul Arifin' },
+    keywords: data.stack.join(', '),
+  }}
+>
+  <div class="shell">
+    <Breadcrumb title={data.title} />
+  </div>
+
+  <header class="project-hero shell">
+    <div class="project-hero__meta mono" data-hero-item style="animation-delay: 0ms">
+      <span class="project-hero__id">{data.id}</span>
+      <span>{data.year}</span>
+      <span>{data.domain}</span>
+    </div>
+    <h1 class="display project-hero__title" data-hero-item style="animation-delay: 60ms" transition:name={`project-title-${project.id}`}>
+      {data.title}
+    </h1>
+    <p class="project-hero__tagline" data-hero-item style="animation-delay: 120ms">{data.tagline}</p>
+    <div class="project-hero__roles" data-hero-item style="animation-delay: 180ms">
+      {data.roles.map((r) => <span class="badge mono">{r}</span>)}
+    </div>
+  </header>
+
+  <div class="shell project-layout">
+    <div class="project-layout__content prose" data-reveal>
+      <BrowserFrame
+        src={data.cover}
+        caption={data.tagline}
+        priority
+        sizes="(min-width: 1024px) 800px, 100vw"
+        showCaption={false}
+      />
+      <slot />
+      {data.metrics.length > 0 && (
+        <>
+          <h2>Impact</h2>
+          <MetricGrid metrics={data.metrics} />
+        </>
+      )}
+      {data.screenshots.length > 0 && (
+        <div class="project-layout__gallery">
+          {data.screenshots.map((shot) => (
+            <BrowserFrame src={shot.src} caption={shot.caption} />
+          ))}
+        </div>
+      )}
+    </div>
+    <aside class="project-layout__sidebar" data-reveal>
+      <ProjectMeta data={data} mode="sidebar" />
+    </aside>
+  </div>
+
+  <div class="shell">
+    <PrevNext prev={prev} next={next} />
+  </div>
+</Base>
+
+<style>
+  .project-hero {
+    padding-top: var(--sp-12);
+    padding-bottom: var(--sp-8);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .project-hero__meta {
+    display: flex;
+    gap: var(--sp-4);
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    margin-bottom: var(--sp-4);
+  }
+
+  .project-hero__id {
+    color: var(--amber);
+  }
+
+  .project-hero__title {
+    font-size: var(--step-4);
+    margin-bottom: var(--sp-4);
+  }
+
+  .project-hero__tagline {
+    font-size: var(--step-1);
+    color: var(--text-muted);
+    max-width: 60ch;
+    margin-bottom: var(--sp-4);
+  }
+
+  .project-hero__roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .project-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--sp-16);
+    padding-block: var(--sp-16);
+    align-items: start;
+  }
+
+  .project-layout__sidebar {
+    position: sticky;
+    top: 88px;
+    background: var(--ink-raised);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: var(--sp-6);
+  }
+
+  .project-layout__gallery {
+    display: grid;
+    gap: var(--sp-8);
+    margin-top: var(--sp-8);
+  }
+
+  @media (max-width: 1023px) {
+    .project-layout {
+      grid-template-columns: 1fr;
+      gap: var(--sp-8);
+    }
+
+    .project-layout__sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+</style>

@@ -1,0 +1,129 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  showDomain?: boolean;
+  index?: number;
+}
+const { project, showDomain = true, index = 0 } = Astro.props;
+const { data } = project;
+const primaryRole = data.roles[0];
+const stackPreview = data.stack.slice(0, 3);
+---
+
+<li
+  class="index-row"
+  data-index-row
+  style={`--i:${index}`}
+  data-stack={data.stack.join('|').toLowerCase()}
+  data-role={data.roles.join('|').toLowerCase()}
+  data-domain={data.domain.toLowerCase()}
+  data-year={data.year}
+  data-search={`${data.title} ${data.tagline} ${data.stack.join(' ')}`.toLowerCase()}
+>
+  <a href={`/projects/${project.id}/`} class="index-row__link">
+    <span class="index-row__accent" aria-hidden="true"></span>
+    <span class="index-row__id mono">{data.id}</span>
+    <span class="index-row__year mono">{data.year}</span>
+    <span class="index-row__name display">{data.title}</span>
+    <span class="index-row__role mono">{primaryRole}</span>
+    {showDomain && <span class="index-row__domain mono">{data.domain}</span>}
+    <span class="index-row__stack mono">{stackPreview.join(' · ')}</span>
+    <span class="index-row__thumb-src" data-thumb-src>
+      <Image src={data.cover} alt="" width={240} height={150} loading="lazy" format="webp" />
+    </span>
+  </a>
+</li>
+
+<style>
+  .index-row {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .index-row__link {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3.5rem 3.5rem 1fr 9rem 8rem 12rem;
+    align-items: center;
+    gap: var(--sp-4);
+    padding: var(--sp-3) var(--sp-4);
+    transition: background var(--dur-fast);
+  }
+
+  .index-row__link:hover,
+  .index-row__link:focus-visible {
+    background: var(--ink-raised);
+  }
+
+  .index-row__accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--amber);
+    transition: width var(--dur-fast) var(--ease-out-expo);
+  }
+
+  .index-row__link:hover .index-row__accent,
+  .index-row__link:focus-visible .index-row__accent {
+    width: 3px;
+  }
+
+  .index-row__id {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+  }
+
+  .index-row__year {
+    color: var(--text-muted);
+    font-size: var(--step--1);
+  }
+
+  .index-row__name {
+    font-size: var(--step-0);
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .index-row__role,
+  .index-row__domain,
+  .index-row__stack {
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .index-row__thumb-src {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  @media (max-width: 767px) {
+    .index-row__link {
+      grid-template-columns: 1fr;
+      row-gap: var(--sp-1);
+    }
+
+    .index-row__domain {
+      display: none;
+    }
+
+    .index-row__name {
+      white-space: normal;
+      order: -1;
+      font-size: var(--step-1);
+    }
+  }
+</style>

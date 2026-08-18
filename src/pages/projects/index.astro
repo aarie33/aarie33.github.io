@@ -1,0 +1,141 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import IndexTable from '../../components/IndexTable.astro';
+
+const allProjects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const stacks = [...new Set(allProjects.flatMap((p) => p.data.stack))].sort();
+const roles = [...new Set(allProjects.flatMap((p) => p.data.roles))].sort();
+const domains = [...new Set(allProjects.map((p) => p.data.domain))].sort();
+const years = allProjects.map((p) => p.data.year);
+const minYear = Math.min(...years);
+const maxYear = Math.max(...years);
+---
+
+<Base
+  title="Project Index — Ahmad Syamsul Arifin"
+  description={`All ${allProjects.length} projects, filterable by stack, role, domain, and year.`}
+>
+  <div class="shell" style="padding-top: var(--sp-8);">
+    <h1 class="display" style="font-size: var(--step-3); margin-bottom: var(--sp-2);">The Index</h1>
+    <p class="mono" style="color: var(--text-muted); max-width: 60ch; margin-bottom: var(--sp-6);">
+      {allProjects.length} projects, archived P-001 through P-{String(allProjects.length).padStart(3, '0')}.
+      Filter or search to narrow the list — the URL updates as you go, so results are shareable.
+    </p>
+  </div>
+
+  <FilterBar stacks={stacks} roles={roles} domains={domains} minYear={minYear} maxYear={maxYear} total={allProjects.length} />
+
+  <div class="shell">
+    <IndexTable projects={allProjects} />
+  </div>
+</Base>
+
+<script>
+  function initFilters() {
+    const bar = document.getElementById('filter-bar');
+    const table = document.getElementById('the-index');
+    if (!bar || !table) return;
+
+    const searchInput = document.getElementById('filter-search') as HTMLInputElement;
+    const yearMinSelect = document.getElementById('filter-year-min') as HTMLSelectElement;
+    const yearMaxSelect = document.getElementById('filter-year-max') as HTMLSelectElement;
+    const clearBtn = document.getElementById('filter-clear');
+    const countEl = document.getElementById('filter-count');
+    const rows = Array.from(table.querySelectorAll<HTMLElement>('[data-index-row]'));
+    const total = rows.length;
+
+    function checkedValues(name: string): string[] {
+      return Array.from(bar!.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)).map(
+        (el) => el.value,
+      );
+    }
+
+    function apply(pushState = true) {
+      const search = searchInput.value.trim().toLowerCase();
+      const roleFilters = checkedValues('role');
+      const domainFilters = checkedValues('domain');
+      const stackFilters = checkedValues('stack');
+      const yearMin = Number(yearMinSelect.value);
+      const yearMax = Number(yearMaxSelect.value);
+
+      let visible = 0;
+      for (const row of rows) {
+        const matchesSearch = !search || (row.dataset.search ?? '').includes(search);
+        const rowRoles = (row.dataset.role ?? '').split('|');
+        const matchesRole = roleFilters.length === 0 || roleFilters.some((r) => rowRoles.includes(r));
+        const matchesDomain = domainFilters.length === 0 || domainFilters.includes(row.dataset.domain ?? '');
+        const rowStack = (row.dataset.stack ?? '').split('|');
+        const matchesStack = stackFilters.length === 0 || stackFilters.some((s) => rowStack.includes(s));
+        const year = Number(row.dataset.year);
+        const matchesYear = year >= yearMin && year <= yearMax;
+
+        const show = matchesSearch && matchesRole && matchesDomain && matchesStack && matchesYear;
+
+        if (show) {
+          visible++;
+          if (row.classList.contains('is-hidden')) {
+            row.classList.remove('is-hidden');
+          }
+          row.classList.remove('is-filtering-out');
+        } else if (!row.classList.contains('is-hidden')) {
+          row.classList.add('is-filtering-out');
+          window.setTimeout(() => {
+            row.classList.add('is-hidden');
+            row.classList.remove('is-filtering-out');
+          }, 120);
+        }
+      }
+
+      if (countEl) countEl.textContent = `Showing ${visible} of ${total}`;
+
+      if (pushState) {
+        const params = new URLSearchParams();
+        if (search) params.set('search', search);
+        if (roleFilters.length) params.set('role', roleFilters.join(','));
+        if (domainFilters.length) params.set('domain', domainFilters.join(','));
+        if (stackFilters.length) params.set('stack', stackFilters.join(','));
+        if (yearMin !== Number(yearMinSelect.options[0].value)) params.set('yearMin', String(yearMin));
+        if (yearMax !== Number(yearMaxSelect.options[yearMaxSelect.options.length - 1].value))
+          params.set('yearMax', String(yearMax));
+        const qs = params.toString();
+        const url = qs ? `?${qs}` : window.location.pathname;
+        window.history.replaceState({}, '', url);
+      }
+    }
+
+    function restoreFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('search')) searchInput.value = params.get('search') ?? '';
+      if (params.has('yearMin')) yearMinSelect.value = params.get('yearMin') ?? yearMinSelect.value;
+      if (params.has('yearMax')) yearMaxSelect.value = params.get('yearMax') ?? yearMaxSelect.value;
+      for (const key of ['role', 'domain', 'stack']) {
+        const values = params.get(key)?.split(',') ?? [];
+        for (const value of values) {
+          const input = bar!.querySelector<HTMLInputElement>(`input[name="${key}"][value="${value}"]`);
+          if (input) input.checked = true;
+        }
+      }
+    }
+
+    bar.addEventListener('input', () => apply(true));
+    bar.addEventListener('change', () => apply(true));
+
+    clearBtn?.addEventListener('click', () => {
+      searchInput.value = '';
+      yearMinSelect.selectedIndex = 0;
+      yearMaxSelect.selectedIndex = yearMaxSelect.options.length - 1;
+      bar.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach((el) => (el.checked = false));
+      apply(true);
+    });
+
+    restoreFromURL();
+    apply(false);
+  }
+
+  document.addEventListener('astro:page-load', initFilters);
+</script>

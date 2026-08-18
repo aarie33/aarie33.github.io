@@ -1,0 +1,175 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import contact from '../../data/contact.json';
+
+const allProjects = await getCollection('projects', ({ data }) => !data.draft);
+const years = allProjects.map((p) => p.data.year);
+const minYear = Math.min(...years);
+const maxYear = Math.max(...years);
+const domains = [...new Set(allProjects.map((p) => p.data.domain))];
+
+const timeline = [
+  {
+    range: `${minYear}–2020`,
+    text: 'Started out on Laravel and CodeIgniter (HMVC) monoliths, building backend systems for local government offices, universities, and healthcare products across East Java.',
+  },
+  {
+    range: '2021–2022',
+    text: 'Took on Dev Lead responsibilities across a run of public-health and government platforms, standardizing on a Laravel + Inertia + Vue stack for fullstack delivery.',
+  },
+  {
+    range: '2023–2024',
+    text: 'Moved into enterprise and international client work — industrial-estate systems for PT SIER, energy billing, and several Hong Kong-based products spanning fintech, insurance, and fundraising.',
+  },
+  {
+    range: `2025–${maxYear}`,
+    text: 'Backend engineering on enterprise-scale systems for Telkomsel — an AI-driven agent platform, a nationwide queue system, and an omnichannel chatbot serving millions of users.',
+  },
+];
+---
+
+<Base
+  title="About — Ahmad Syamsul Arifin"
+  description="Dev Lead and backend developer specialized in scalable web applications, robust APIs, and cloud infrastructure."
+>
+  <div class="shell about">
+    <header class="about__header" data-hero-item style="animation-delay:0ms">
+      <div class="about__avatar mono" aria-hidden="true">AA</div>
+      <div>
+        <p class="mono about__eyebrow">About</p>
+        <h1 class="display about__name">Ahmad Syamsul Arifin</h1>
+        <p class="about__role mono">Dev Lead / Backend Developer</p>
+      </div>
+    </header>
+
+    <div class="prose about__bio" data-reveal>
+      <p>
+        Full-stack web developer specialized in building scalable web applications, robust APIs, and cloud
+        infrastructure. Across {allProjects.length} shipped projects since around {minYear}, the throughline has been
+        backend systems that need to be correct under real operational load — government reporting platforms,
+        hospital and public-health data systems, and, more recently, enterprise telecom infrastructure serving
+        millions of users.
+      </p>
+      <p>
+        Most of that work has been as Dev Lead: owning the architecture decisions as much as the code, and
+        being accountable for what a system does after launch, not just what it does in a demo. The stack has
+        shifted over time — from CodeIgniter HMVC monoliths early on, to Laravel + Inertia + Vue as the default
+        for fullstack delivery, to Go, Node.js, and event-driven services for enterprise-scale backend work.
+      </p>
+      <p>
+        Work has spanned {domains.length} domains — {domains.join(', ')} — for clients ranging from Indonesian
+        regional government offices and universities to enterprise telecom and international fintech clients in
+        Hong Kong.
+      </p>
+    </div>
+
+    <section class="about__timeline" data-reveal>
+      <h2 class="display about__section-title">Timeline</h2>
+      <ol class="timeline">
+        {timeline.map((item) => (
+          <li class="timeline__item">
+            <span class="mono timeline__range">{item.range}</span>
+            <p class="timeline__text">{item.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="about__cta" data-reveal>
+      <a href={`mailto:${contact.email}`} class="btn btn-primary">Email me</a>
+      <a href="/projects/" class="btn">See all projects</a>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .about {
+    padding-top: var(--sp-16);
+    padding-bottom: var(--sp-24);
+    max-width: 800px;
+  }
+
+  .about__header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+    margin-bottom: var(--sp-12);
+  }
+
+  .about__avatar {
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    border: 1px solid var(--rule-hover);
+    border-radius: var(--radius-md);
+    background: var(--ink-raised);
+    color: var(--amber);
+    font-size: var(--step-2);
+    letter-spacing: 0.04em;
+  }
+
+  .about__eyebrow {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    margin-bottom: var(--sp-1);
+  }
+
+  .about__name {
+    font-size: var(--step-3);
+    margin-bottom: var(--sp-1);
+  }
+
+  .about__role {
+    color: var(--text-muted);
+    font-size: var(--step-0);
+  }
+
+  .about__bio {
+    margin-bottom: var(--sp-16);
+  }
+
+  .about__section-title {
+    font-size: var(--step-2);
+    margin-bottom: var(--sp-6);
+  }
+
+  .timeline {
+    display: grid;
+    gap: var(--sp-6);
+    margin-bottom: var(--sp-16);
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: var(--sp-4);
+    border-top: 1px solid var(--rule);
+    padding-top: var(--sp-4);
+  }
+
+  .timeline__range {
+    color: var(--amber);
+    font-size: var(--step--1);
+  }
+
+  .timeline__text {
+    color: var(--text-muted);
+    max-width: 60ch;
+  }
+
+  .about__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+
+  @media (max-width: 480px) {
+    .timeline__item {
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+    }
+  }
+</style>

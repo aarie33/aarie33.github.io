@@ -1,0 +1,43 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<nav class="breadcrumb mono" aria-label="Breadcrumb">
+  <a href="/projects/" class="link-underline" data-breadcrumb-back>&larr; Index</a>
+  <span aria-hidden="true">/</span>
+  <span class="breadcrumb__current">{title}</span>
+</nav>
+
+<script>
+  function restoreFilteredBack() {
+    const link = document.querySelector<HTMLAnchorElement>('[data-breadcrumb-back]');
+    if (!link) return;
+    const ref = document.referrer;
+    if (ref && ref.startsWith(`${window.location.origin}/projects/`)) {
+      link.href = ref;
+    }
+  }
+  document.addEventListener('astro:page-load', restoreFilteredBack);
+</script>
+
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    padding-block: var(--sp-4);
+  }
+
+  .breadcrumb__current {
+    color: var(--text-faint);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 40ch;
+  }
+</style>
