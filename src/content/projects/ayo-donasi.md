@@ -3,7 +3,7 @@ id: P-002
 title: Ayo Donasi
 tagline: "Donation platform built as a modular monolith on CodeIgniter HMVC"
 tier: compact
-year: 2018
+year: 2020
 domain: Social Impact
 roles: [Dev Lead, Backend Developer]
 stack: [CodeIgniter, HMVC]

@@ -3,7 +3,7 @@ id: P-006
 title: Dietducate
 tagline: "Nutrition education app for Android, built natively in Kotlin"
 tier: compact
-year: 2019
+year: 2020
 domain: Healthcare
 roles: [Dev Lead, Fullstack Developer]
 stack: [Kotlin]

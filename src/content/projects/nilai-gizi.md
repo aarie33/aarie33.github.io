@@ -3,7 +3,7 @@ id: P-005
 title: Nilai Gizi
 tagline: "Companion nutrition-tracking app built alongside Ahli Gizi"
 tier: compact
-year: 2019
+year: 2020
 domain: Healthcare
 roles: [Dev Lead, Fullstack Developer]
 stack: [CodeIgniter]

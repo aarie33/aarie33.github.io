@@ -31,6 +31,7 @@ const { metrics } = Astro.props;
   }
 
   .metric-grid__item {
+    min-width: 0;
     border-top: 1px solid var(--rule);
     padding-top: var(--sp-3);
   }
@@ -47,5 +48,7 @@ const { metrics } = Astro.props;
     font-size: var(--step-2);
     color: var(--amber);
     font-weight: 500;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 </style>

@@ -3,7 +3,7 @@ id: P-008
 title: SirakaBaja
 tagline: "Companion module extending the Siraka campus system"
 tier: compact
-year: 2019
+year: 2021
 domain: Education
 roles: [Backend Developer]
 client: "Politeknik Negeri Jember"

@@ -3,9 +3,9 @@ id: P-029
 title: MUA Booking
 tagline: "Admin and client booking platform for a Hong Kong beauty services business"
 tier: standard
-year: 2024
+year: 2023
 domain: E-commerce
-roles: [Dev Lead]
+roles: [Fullstack Developer]
 client: "a Hong Kong-based beauty and wellness booking business"
 stack: [Laravel, Inertia.js, Vue.js]
 cover: ./images/booking-management/cover.png
@@ -20,7 +20,8 @@ order: 29
 ## Context
 MUA Booking is a booking management platform built for a Hong Kong-based
 client in the beauty and wellness space, covering both the admin side
-(schedules, availability) and the client-facing booking flow.
+(schedules, availability) and the client-facing booking flow. Built as a
+Senior Programming Analyst at Wistkey Technologies (Hong Kong SAR, remote).
 
 ## Technical challenge
 Two very different user needs on one platform: admins managing

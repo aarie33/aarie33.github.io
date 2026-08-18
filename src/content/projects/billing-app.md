@@ -3,7 +3,7 @@ id: P-021
 title: Billing App
 tagline: "Natural gas billing system with Azure SSO for an energy distribution company"
 tier: standard
-year: 2023
+year: 2022
 domain: ERP
 roles: [Fullstack Developer]
 client: "Energasindo Heksa Karya"

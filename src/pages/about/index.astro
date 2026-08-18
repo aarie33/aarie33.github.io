@@ -4,34 +4,102 @@ import Base from '../../layouts/Base.astro';
 import contact from '../../data/contact.json';
 
 const allProjects = await getCollection('projects', ({ data }) => !data.draft);
-const years = allProjects.map((p) => p.data.year);
-const minYear = Math.min(...years);
-const maxYear = Math.max(...years);
 const domains = [...new Set(allProjects.map((p) => p.data.domain))];
 
-const timeline = [
+const experience = [
   {
-    range: `${minYear}–2020`,
-    text: 'Started out on Laravel and CodeIgniter (HMVC) monoliths, building backend systems for local government offices, universities, and healthcare products across East Java.',
+    range: 'Nov 2024 – Present',
+    role: 'Senior Full Stack Developer',
+    org: 'PT. Dans Multi Pro',
+    place: 'Client: Telkomsel · Jakarta, Indonesia',
+    text: 'Architecting and building high-scale enterprise systems within the Telkomsel ecosystem — including Veronika, an omnichannel AI chatbot serving millions of users across 6 digital channels; AntreAja, a nationwide digital queue platform across 500+ GraPARI outlets; and DSC, the agent-facing reporting platform behind both.',
   },
   {
-    range: '2021–2022',
-    text: 'Took on Dev Lead responsibilities across a run of public-health and government platforms, standardizing on a Laravel + Inertia + Vue stack for fullstack delivery.',
+    range: 'Apr 2023 – Oct 2024',
+    role: 'Senior Programming Analyst',
+    org: 'Wistkey Technologies Limited',
+    place: 'Hong Kong SAR (Remote)',
+    text: 'Delivered 4 client projects end to end — 2 built from zero to production — spanning booking platforms, insurance CRM, fintech, and fundraising, using Laravel, Vue.js, React.js, and React Native.',
   },
   {
-    range: '2023–2024',
-    text: 'Moved into enterprise and international client work — industrial-estate systems for PT SIER, energy billing, and several Hong Kong-based products spanning fintech, insurance, and fundraising.',
+    range: 'Oct 2019 – Apr 2023',
+    role: 'Co-Founder & Full Stack Engineer',
+    org: 'CV Dafidea Technocraft',
+    place: 'Jember, Indonesia',
+    text: 'Co-founded a software house and led technical development of 10+ production applications across healthcare, government, education, and e-commerce — designing architecture, leading small teams of 1–2 engineers per project, and working directly with institutional clients from requirements through production maintenance.',
   },
   {
-    range: `2025–${maxYear}`,
-    text: 'Backend engineering on enterprise-scale systems for Telkomsel — an AI-driven agent platform, a nationwide queue system, and an omnichannel chatbot serving millions of users.',
+    range: 'Feb 2019 – May 2019',
+    role: 'Backend Engineer (Intern)',
+    org: 'PT Itematik Pramitha Nusantara',
+    place: 'Yogyakarta, Indonesia',
+    text: 'Independently built a responsive company profile site end to end — Slim Framework (PHP) backend, 12+ REST endpoints, MySQL schema design — across a 3-month internship.',
   },
+];
+
+const education = [
+  {
+    range: 'Jul 2015 – Oct 2019',
+    title: 'Bachelor of Applied Science (D4), Information Technology',
+    org: 'Politeknik Negeri Jember, Indonesia',
+  },
+  {
+    range: 'Feb 2018 – Jun 2018',
+    title: 'Exchange Student, Computer Science',
+    org: 'Kyungpook National University, Daegu, South Korea',
+  },
+];
+
+const skills = [
+  { label: 'Backend', items: ['NestJS', 'Node.js', 'Java Spring Boot', 'Golang', 'Python', 'Laravel', 'CodeIgniter'] },
+  { label: 'Frontend', items: ['Vue.js', 'React.js', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
+  { label: 'Mobile', items: ['React Native', 'Flutter', 'Kotlin'] },
+  { label: 'Architecture & data', items: ['Microservices', 'gRPC', 'GraphQL', 'MySQL', 'PostgreSQL', 'Kafka', 'Redis'] },
+  { label: 'Cloud & DevOps', items: ['AWS (Lambda, EC2, S3, EKS)', 'Kubernetes', 'GitLab CI/CD', 'Docker'] },
+];
+
+const achievements = [
+  {
+    title: 'Mentor, Google Developer Kejar Program',
+    org: 'Politeknik Negeri Jember, 2018',
+    text: 'Delivered technical guidance and mentorship to students adopting modern software development practices.',
+  },
+  {
+    title: '3rd Place, Robotino Indonesia Competition',
+    org: 'East Java Elimination Round, 2017',
+    text: 'Co-developed and programmed an autonomous robot.',
+  },
+  {
+    title: 'Competitor, Kamadjaja Logistics National Hackathon',
+    org: '2018',
+    text: 'Built software solutions for logistics and supply chain challenges in a cross-functional team.',
+  },
+  {
+    title: 'Competitor, Firebase Hackathon',
+    org: '2017',
+    text: "Designed and built a rapid prototype on Firebase's real-time database and cloud infrastructure.",
+  },
+];
+
+const certifications = [
+  { name: 'Introduction to Cybersecurity', org: 'Cisco', year: '2025', url: 'https://www.credly.com/badges/c5bdb0c6-4dc7-4a72-975a-90c6605a1552/linked_in_profile' },
+  { name: 'Cloud Practitioner Essentials (AWS Cloud)', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/2VX3RVRO3ZYQ' },
+  { name: 'Belajar Membangun Arsitektur Microservices', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/N9ZOM9RG6PG5' },
+  { name: 'Belajar Implementasi CI/CD', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/07Z607L22ZQR' },
+  { name: 'Menjadi Linux System Administrator', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/L4PQ180E7XO1' },
+  { name: 'Belajar Dasar-Dasar DevOps', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/0LZ06QGRQZ65' },
+  { name: 'Belajar Jaringan Komputer untuk Pemula', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/QLZ97NLM9P5D' },
+  { name: 'Belajar Machine Learning untuk Pemula', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/53XEOD240ZRN' },
+  { name: 'Belajar Pengembangan Machine Learning', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/NVP7QJ8LVZR0' },
+  { name: 'Belajar Dasar Visualisasi Data', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/RVZKRE1VMPD5' },
+  { name: 'Memulai Pemrograman dengan Python', org: 'Dicoding Indonesia', year: '2024', url: 'https://www.dicoding.com/certificates/MRZMEWMRRPYQ' },
+  { name: 'Kotlin Android Developer Expert', org: 'Dicoding Indonesia', year: '2018', url: 'https://www.dicoding.com/certificates/QLZ9708DEP5D' },
 ];
 ---
 
 <Base
   title="About — Ahmad Syamsul Arifin"
-  description="Dev Lead and backend developer specialized in scalable web applications, robust APIs, and cloud infrastructure."
+  description="Senior Full-Stack Engineer with ~7 years of experience across startups, a software house, and enterprise telecom systems."
 >
   <div class="shell about">
     <header class="about__header" data-hero-item style="animation-delay:0ms">
@@ -39,45 +107,99 @@ const timeline = [
       <div>
         <p class="mono about__eyebrow">About</p>
         <h1 class="display about__name">Ahmad Syamsul Arifin</h1>
-        <p class="about__role mono">Dev Lead / Backend Developer</p>
+        <p class="about__role mono">Senior Full-Stack Engineer · {contact.location}</p>
       </div>
     </header>
 
     <div class="prose about__bio" data-reveal>
       <p>
-        Full-stack web developer specialized in building scalable web applications, robust APIs, and cloud
-        infrastructure. Across {allProjects.length} shipped projects since around {minYear}, the throughline has been
-        backend systems that need to be correct under real operational load — government reporting platforms,
-        hospital and public-health data systems, and, more recently, enterprise telecom infrastructure serving
-        millions of users.
+        Senior Full-Stack Engineer with ~7 years of experience building and deploying web applications, mobile
+        apps, SaaS platforms, backend services, and enterprise systems across startup, software house, and
+        enterprise environments. Comfortable owning a product from architecture and development through
+        production deployment and ongoing maintenance, with a strong focus on scalable backend systems and
+        full-stack delivery. Core expertise spans Java Spring Boot, Laravel, NestJS, Node.js, Vue.js, React.js,
+        and React Native.
       </p>
       <p>
-        Most of that work has been as Dev Lead: owning the architecture decisions as much as the code, and
-        being accountable for what a system does after launch, not just what it does in a demo. The stack has
-        shifted over time — from CodeIgniter HMVC monoliths early on, to Laravel + Inertia + Vue as the default
-        for fullstack delivery, to Go, Node.js, and event-driven services for enterprise-scale backend work.
-      </p>
-      <p>
-        Work has spanned {domains.length} domains — {domains.join(', ')} — for clients ranging from Indonesian
-        regional government offices and universities to enterprise telecom and international fintech clients in
-        Hong Kong.
+        Most recently building backend microservices for Telkomsel's omnichannel chatbot platform, supporting
+        millions of users across 6 digital channels. Before that, co-founded a software house and led technical
+        development on the {allProjects.length} projects shown here, spanning {domains.length} domains —
+        including {domains.slice(0, 4).join(', ')} — for clients from Indonesian regional government offices to
+        international fintech and enterprise telecom clients.
       </p>
     </div>
 
-    <section class="about__timeline" data-reveal>
-      <h2 class="display about__section-title">Timeline</h2>
+    <section class="about__section" data-reveal>
+      <h2 class="display about__section-title">Experience</h2>
       <ol class="timeline">
-        {timeline.map((item) => (
+        {experience.map((item) => (
           <li class="timeline__item">
             <span class="mono timeline__range">{item.range}</span>
-            <p class="timeline__text">{item.text}</p>
+            <div>
+              <p class="timeline__role">{item.role} <span class="timeline__org">— {item.org}</span></p>
+              <p class="mono timeline__place">{item.place}</p>
+              <p class="timeline__text">{item.text}</p>
+            </div>
           </li>
         ))}
       </ol>
     </section>
 
+    <section class="about__section" data-reveal>
+      <h2 class="display about__section-title">Education</h2>
+      <ol class="timeline">
+        {education.map((item) => (
+          <li class="timeline__item">
+            <span class="mono timeline__range">{item.range}</span>
+            <div>
+              <p class="timeline__role">{item.title}</p>
+              <p class="mono timeline__place">{item.org}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="about__section" data-reveal>
+      <h2 class="display about__section-title">Skills</h2>
+      <div class="skills-grid">
+        {skills.map((group) => (
+          <div>
+            <h3 class="mono skills-group__label">{group.label}</h3>
+            <p class="skills-group__items">{group.items.join(' · ')}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="about__section" data-reveal>
+      <h2 class="display about__section-title">Achievements</h2>
+      <ul class="achievements">
+        {achievements.map((item) => (
+          <li class="achievements__item">
+            <p class="achievements__title">{item.title}</p>
+            <p class="mono achievements__org">{item.org}</p>
+            <p class="achievements__text">{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="about__section" data-reveal>
+      <h2 class="display about__section-title">Certifications</h2>
+      <ul class="certs">
+        {certifications.map((cert) => (
+          <li class="certs__item">
+            <a href={cert.url} target="_blank" rel="noreferrer" class="link-underline certs__name">{cert.name}</a>
+            <span class="mono certs__meta">{cert.org} · {cert.year}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     <section class="about__cta" data-reveal>
       <a href={`mailto:${contact.email}`} class="btn btn-primary">Email me</a>
+      <a href="/resume-ahmad-syamsul-arifin.pdf" class="btn" target="_blank" rel="noreferrer">Download résumé</a>
       <a href="/projects/" class="btn">See all projects</a>
     </section>
   </div>
@@ -131,6 +253,10 @@ const timeline = [
     margin-bottom: var(--sp-16);
   }
 
+  .about__section {
+    margin-bottom: var(--sp-16);
+  }
+
   .about__section-title {
     font-size: var(--step-2);
     margin-bottom: var(--sp-6);
@@ -139,12 +265,11 @@ const timeline = [
   .timeline {
     display: grid;
     gap: var(--sp-6);
-    margin-bottom: var(--sp-16);
   }
 
   .timeline__item {
     display: grid;
-    grid-template-columns: 8rem 1fr;
+    grid-template-columns: 10rem 1fr;
     gap: var(--sp-4);
     border-top: 1px solid var(--rule);
     padding-top: var(--sp-4);
@@ -155,9 +280,99 @@ const timeline = [
     font-size: var(--step--1);
   }
 
+  .timeline__role {
+    color: var(--text);
+    font-size: var(--step-0);
+    font-weight: 500;
+    margin-bottom: var(--sp-1);
+  }
+
+  .timeline__org {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .timeline__place {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    margin-bottom: var(--sp-2);
+  }
+
   .timeline__text {
     color: var(--text-muted);
-    max-width: 60ch;
+    max-width: 62ch;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--sp-6);
+  }
+
+  .skills-group__label {
+    font-size: var(--step--1);
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--sp-2);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .skills-group__items {
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .achievements {
+    display: grid;
+    gap: var(--sp-4);
+  }
+
+  .achievements__item {
+    border-top: 1px solid var(--rule);
+    padding-top: var(--sp-3);
+  }
+
+  .achievements__title {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .achievements__org {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    margin-bottom: var(--sp-1);
+  }
+
+  .achievements__text {
+    color: var(--text-muted);
+    max-width: 62ch;
+  }
+
+  .certs {
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .certs__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    border-top: 1px solid var(--rule);
+    padding-block: var(--sp-2);
+  }
+
+  .certs__name {
+    color: var(--text);
+  }
+
+  .certs__meta {
+    color: var(--text-faint);
+    font-size: var(--step--1);
+    white-space: nowrap;
   }
 
   .about__cta {
@@ -169,7 +384,7 @@ const timeline = [
   @media (max-width: 480px) {
     .timeline__item {
       grid-template-columns: 1fr;
-      gap: var(--sp-2);
+      gap: var(--sp-1);
     }
   }
 </style>

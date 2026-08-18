@@ -3,7 +3,7 @@ id: P-003
 title: Tangting Barberhome
 tagline: "Booking platform for a barbershop chain, shipped as an installable PWA"
 tier: compact
-year: 2018
+year: 2020
 domain: E-commerce
 roles: [Dev Lead, Backend Developer]
 stack: [CodeIgniter, HMVC, PWA]

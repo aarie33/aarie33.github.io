@@ -3,7 +3,7 @@ id: P-027
 title: Nutrant
 tagline: "Food nutrition tracking app with PDF/Excel export for clinical use"
 tier: featured
-year: 2024
+year: 2023
 domain: Healthcare
 roles: [Dev Lead]
 stack: [Laravel, Inertia.js, Vue.js]

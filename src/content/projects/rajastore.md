@@ -3,7 +3,7 @@ id: P-012
 title: Rajastore
 tagline: "E-commerce storefront built on Laravel and Inertia"
 tier: compact
-year: 2020
+year: 2021
 domain: E-commerce
 roles: [Backend Developer]
 stack: [Laravel, Inertia.js, Vue.js]

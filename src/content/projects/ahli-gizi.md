@@ -3,7 +3,7 @@ id: P-004
 title: Ahli Gizi
 tagline: "Nutrition consultation app connecting users with certified nutritionists"
 tier: compact
-year: 2019
+year: 2020
 domain: Healthcare
 roles: [Dev Lead, Fullstack Developer]
 stack: [CodeIgniter]

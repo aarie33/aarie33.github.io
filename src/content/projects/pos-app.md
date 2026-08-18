@@ -3,7 +3,7 @@ id: P-025
 title: PoS App
 tagline: "Point-of-sale system for a religious-affairs cooperative"
 tier: standard
-year: 2024
+year: 2023
 domain: ERP
 roles: [Dev Lead]
 client: "Koperasi Kemenag Jember"

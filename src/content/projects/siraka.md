@@ -3,7 +3,7 @@ id: P-007
 title: Siraka
 tagline: "Campus information system for Politeknik Negeri Jember"
 tier: compact
-year: 2019
+year: 2020
 domain: Education
 roles: [Dev Lead, Fullstack Developer]
 client: "Politeknik Negeri Jember"

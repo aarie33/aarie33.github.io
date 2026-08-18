@@ -10,17 +10,12 @@ const allProjects = (await getCollection('projects', ({ data }) => !data.draft))
   (a, b) => a.data.order - b.data.order,
 );
 
-const previewProjects = allProjects.slice(0, 8);
+// Latest work first — most recent shipped project leads both the preview
+// and the featured picks, rather than the archive's oldest entries.
+const latestFirst = [...allProjects].sort((a, b) => b.data.order - a.data.order);
+const previewProjects = latestFirst.slice(0, 8);
+const featuredProjects = latestFirst.filter((p) => p.data.featured).slice(0, 3);
 
-const featuredSlugs = ['dsc-telkomsel', 'sier-sport-arena-booking-app', 'fundraising'];
-const featuredProjects = featuredSlugs
-  .map((slug) => allProjects.find((p) => p.id === slug))
-  .filter((p): p is NonNullable<typeof p> => Boolean(p));
-
-const years = allProjects.map((p) => p.data.year);
-const minYear = Math.min(...years);
-const maxYear = Math.max(...years);
-const yearsExperience = maxYear - minYear + 1;
 const domains = [...new Set(allProjects.map((p) => p.data.domain))];
 
 const stackCounts = new Map<string, number>();
@@ -47,25 +42,26 @@ const capability = [
 ---
 
 <Base
-  title="Ahmad Syamsul Arifin — Backend / Fullstack Developer"
-  description="Dev Lead and backend developer with 35 shipped projects spanning government, healthcare, e-commerce, and enterprise telecom systems."
+  title="Ahmad Syamsul Arifin — Senior Full-Stack Engineer"
+  description="Senior Full-Stack Engineer with ~7 years of experience across 35 shipped projects — government, healthcare, e-commerce, and enterprise telecom systems serving millions of users."
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Ahmad Syamsul Arifin',
-    jobTitle: 'Dev Lead / Backend Developer',
+    jobTitle: 'Senior Full-Stack Engineer',
     email: contact.email,
     url: 'https://aarie33.github.io',
+    address: contact.location,
     sameAs: [contact.github, contact.linkedin],
   }}
 >
   <section class="hero shell">
     <p class="mono hero__eyebrow" data-hero-item style="animation-delay:0ms">P-000 / Portfolio</p>
     <h1 class="display hero__thesis" data-hero-item style="animation-delay:60ms">
-      Backend-first engineer<br />who ships fullstack.
+      Senior full-stack engineer<br />at enterprise scale.
     </h1>
     <p class="hero__sub mono" data-hero-item style="animation-delay:140ms">
-      Ahmad Syamsul Arifin · Dev Lead / Backend Developer · {yearsExperience}+ years ·
+      Ahmad Syamsul Arifin · Senior Full-Stack Engineer · 7+ years · {contact.location} ·
       {allProjects.length} shipped projects · {domains.length} domains including {domains.slice(0, 3).join(', ')}
     </p>
     <div class="hero__cta" data-hero-item style="animation-delay:200ms">
@@ -195,6 +191,14 @@ const capability = [
     aspect-ratio: 4 / 3;
     object-fit: cover;
     object-position: top;
+  }
+
+  .featured-card :global(.metric-grid) {
+    gap: var(--sp-4);
+  }
+
+  .featured-card :global(.metric-grid__value) {
+    font-size: var(--step-1);
   }
 
   .featured-card__meta {

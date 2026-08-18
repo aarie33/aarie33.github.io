@@ -5,7 +5,7 @@ tagline: "Fundraising and donation platform for a Hong Kong charity"
 tier: featured
 year: 2024
 domain: Social Impact
-roles: [Dev Lead]
+roles: [Fullstack Developer]
 client: "A Drop of Life (Hong Kong)"
 stack: [Laravel, Inertia.js, Vue.js]
 cover: ./images/fundraising/cover.png
@@ -21,9 +21,12 @@ order: 31
 
 ## Context
 A Drop of Life is a Hong Kong-based charity running fundraising campaigns.
-The platform needed to support both the internal admin side — creating and
-managing campaigns — and the public-facing donation flow, with international
-payment support since donors were not limited to one region.
+Built full-stack, from zero to production, as a Senior Programming Analyst
+at Wistkey Technologies Limited (Hong Kong SAR, remote) — one of four
+client engagements handled there. The platform needed to support both the
+internal admin side — creating and managing campaigns — and the
+public-facing donation flow, with international payment support since
+donors were not limited to one region.
 
 ## Technical challenge
 Payment integration was the crux of it: supporting both PayPal and Stripe
@@ -39,8 +42,9 @@ boundary. That separation meant adding or changing a payment provider later
 wouldn't touch campaign logic at all.
 
 ## Contribution
-Led the build as Dev Lead: campaign management, the donation flow, and both
-payment integrations.
+Built it end to end as a full-stack developer: designed the application
+structure, campaign management, the donation flow, and both payment
+integrations, then deployed it to a VPS.
 
 ## Result
 Gave A Drop of Life a self-service platform for running fundraising

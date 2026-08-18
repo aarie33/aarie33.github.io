@@ -3,7 +3,7 @@ id: P-016
 title: Gizi Nusantara
 tagline: "Nationwide nutrition-data platform continuing the Balitagrow line of work"
 tier: compact
-year: 2021
+year: 2022
 domain: Healthcare
 roles: [Dev Lead, Fullstack Developer]
 stack: [Laravel, Inertia.js, Vue.js]

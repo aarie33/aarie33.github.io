@@ -5,10 +5,10 @@ tagline: "Enterprise agent-assist platform for Telkomsel's GraPARI customer serv
 tier: featured
 year: 2025
 domain: Internal Tools
-roles: [Backend Developer]
+roles: [Fullstack Developer]
 client: "Telkomsel"
-stack: [React, Node.js, Go, AWS]
-architecture: "Microservices on AWS"
+stack: [React, TypeScript, Node.js, NestJS, AWS]
+architecture: "Serverless report generation (AWS Lambda + S3) behind Node.js/NestJS APIs, React + TypeScript frontend"
 cover: ./images/dsc-telkomsel/cover.png
 metrics:
   - label: Agent info-seeking steps reduced
@@ -23,37 +23,44 @@ order: 33
 ## Context
 Digital Smart Care (DSC) is an enterprise-grade platform for Telkomsel's
 GraPARI customer service agents — the staff handling in-person and digital
-customer interactions across Telkomsel's retail network. Agents previously
-had to search across multiple disconnected systems to answer customer
-questions, which slowed down every interaction and made service quality
-inconsistent across outlets.
+customer interactions across Telkomsel's retail network. Built as a Senior
+Full Stack Developer at PT. Dans Multi Pro, engaged directly within
+Telkomsel's ecosystem, with a focus on the cashier and financial reporting
+side agents rely on daily: transaction reports, cashier reports, and
+daily/monthly financial reports used by thousands of internal agents.
 
 ## Technical challenge
-The system needed to unify knowledge lookup, queue management (via the
-AntreAja integration), and transaction tooling into one interface agents
-could use without context-switching — at Telkomsel's scale, where
-inconsistent tooling multiplies into real customer-facing delay across
-hundreds of outlets.
+Financial reporting for an operation this size can't just be accurate —
+it has to stay fast and searchable for thousands of agents pulling reports
+every day, and exportable to Excel/PDF without that generation work
+blocking the web servers serving everyone else.
 
 ## Architecture & decisions
-Built as part of the DSC ecosystem on AWS, with a ReactJS frontend and a
-Node.js backend for agent-facing services, integrating an AI-powered
-Knowledge Management System (KMS) so agents get relevant answers surfaced
-to them instead of having to search for them. Centralizing agent tooling
-into one platform — rather than layering yet another point tool onto
-agents' existing workflow — was the core bet, and it's what the outcome
-metrics below reflect.
+Reporting APIs run on Node.js (Express) and NestJS, with a React and
+TypeScript frontend providing searchable data tables so agents can find
+the right report without digging through menus. Report generation itself —
+Excel exports and PDF processing — runs on AWS Lambda instead of the main
+API servers, with Amazon S3 used to temporarily hold generated PDFs before
+download. Moving generation off the request path was the deliberate call:
+it kept heavy report jobs from ever competing with agents' regular
+day-to-day API traffic.
 
 ## Contribution
-Backend development on the agent-assist services powering DSC's core
-tooling and its integration with the AI-driven knowledge system.
+Enhanced the reporting interfaces (React/TypeScript, searchable tables),
+built and maintained the reporting APIs (Node.js/Express and NestJS), and
+implemented the serverless report-generation pipeline on AWS Lambda and S3.
+Also monitored and troubleshot production issues across the stack — from
+the React frontend through backend services to AWS — to keep reporting
+reliable for agents.
 
 ## Result
-Reduced the number of steps agents needed to find customer information by
-50%, and DSC contributed to Telkomsel achieving an 89.25% Net Promoter
-Score at GraPARI outlets.
+The reporting stack stayed reliable and accurate for thousands of daily
+users. More broadly, the DSC platform it's part of reduced agent
+info-seeking steps by 50% and contributed to Telkomsel achieving an 89.25%
+Net Promoter Score at GraPARI outlets.
 
 ## Lesson
-Unifying disconnected agent tools into a single interface produced a bigger
-service-quality gain than any individual feature within it — the
-consolidation itself was the win.
+Pulling report generation out of the request/response path and onto Lambda
+was a small architectural decision that paid for itself immediately —
+agents never felt report load, no matter how many were being generated at
+once.

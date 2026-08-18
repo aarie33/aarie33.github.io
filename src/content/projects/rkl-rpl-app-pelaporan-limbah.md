@@ -3,7 +3,7 @@ id: P-024
 title: RKL-RPL Waste Reporting App
 tagline: "Environmental compliance reporting system for PT SIER's industrial tenants"
 tier: featured
-year: 2024
+year: 2023
 domain: Internal Tools
 roles: [Dev Lead, Fullstack Developer]
 client: "PT SIER"

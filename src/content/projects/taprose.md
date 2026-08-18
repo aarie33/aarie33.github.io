@@ -3,7 +3,7 @@ id: P-001
 title: Taprose
 tagline: "Backend services for a regional government digital program in Tuban"
 tier: compact
-year: 2018
+year: 2020
 domain: Government
 roles: [Backend Developer]
 client: "Pemkab Tuban"

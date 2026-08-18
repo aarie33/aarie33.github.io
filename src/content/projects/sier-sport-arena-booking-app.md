@@ -3,7 +3,7 @@ id: P-023
 title: Sier Sport Arena
 tagline: "Multi-venue sports facility booking platform for PT SIER"
 tier: featured
-year: 2024
+year: 2022
 domain: E-commerce
 roles: [Dev Lead, Fullstack Developer]
 client: "PT SIER"

@@ -3,7 +3,7 @@ id: P-022
 title: Irripedia
 tagline: "Field survey app for irrigation land-area and elevation data"
 tier: standard
-year: 2023
+year: 2022
 domain: ERP
 roles: [Dev Lead, Fullstack Developer]
 client: "Daya Santosa Rekayasa"

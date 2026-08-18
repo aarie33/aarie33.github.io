@@ -3,7 +3,7 @@ id: P-010
 title: CSR Reporting Platform
 tagline: "Corporate social responsibility reporting system for a state-owned enterprise ministry"
 tier: standard
-year: 2020
+year: 2021
 domain: Government
 roles: [Backend Developer]
 client: "Kementerian BUMN"

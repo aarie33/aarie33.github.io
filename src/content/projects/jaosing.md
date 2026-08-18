@@ -3,7 +3,7 @@ id: P-011
 title: Jaosing
 tagline: "Multimedia network platform for Banyuwangi's regional media hub"
 tier: standard
-year: 2020
+year: 2021
 domain: Government
 roles: [Dev Lead, Fullstack Developer]
 client: "Jaringan Multimedia Banyuwangi"

@@ -3,7 +3,7 @@ id: P-026
 title: Project Management App
 tagline: "Internal project tracking system for a construction company"
 tier: standard
-year: 2024
+year: 2023
 domain: ERP
 roles: [Dev Lead]
 client: "Jember Futura"
