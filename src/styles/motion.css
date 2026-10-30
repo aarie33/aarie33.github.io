@@ -1,27 +1,65 @@
 /* Scroll reveal — applied via IntersectionObserver in Reveal.astro's script */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 500ms var(--ease-out-expo), transform 500ms var(--ease-out-expo);
+  transform: perspective(900px) translateY(32px) rotateX(14deg) scale(0.96);
+  transform-origin: 50% 100%;
+  transition: opacity 500ms var(--ease-out-expo), transform 700ms var(--ease-bounce);
 }
 
 [data-reveal].is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: perspective(900px) translateY(0) rotateX(0) scale(1);
+}
+
+/* Stagger children of a revealed group */
+[data-reveal-stagger] > * {
+  transition-delay: calc(var(--n, 0) * 80ms);
 }
 
 /* Hero load sequence */
 [data-hero-item] {
   opacity: 0;
-  transform: translateY(20px);
-  animation: hero-in var(--dur-slow) var(--ease-out-expo) forwards;
+  transform: translateY(24px) scale(0.97);
+  animation: hero-in 700ms var(--ease-bounce) forwards;
 }
 
 @keyframes hero-in {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
+}
+
+/* Sprites drop in from above like spawning pickups */
+[data-spawn] {
+  opacity: 0;
+  animation: spawn 900ms var(--ease-bounce) forwards;
+  animation-delay: var(--spawn-delay, 0ms);
+}
+
+@keyframes spawn {
+  from {
+    opacity: 0;
+    translate: 0 -60px;
+    scale: 0.6;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+/* 3D tilt card — JS sets --rx / --ry from pointer position */
+[data-tilt] {
+  transform-style: preserve-3d;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 250ms var(--ease-out-expo);
+  will-change: transform;
+}
+
+[data-tilt].is-tilting {
+  transition: transform 60ms linear;
 }
 
 /* Index row stagger on load */
@@ -57,6 +95,7 @@
 @media (prefers-reduced-motion: reduce) {
   [data-reveal],
   [data-hero-item],
+  [data-spawn],
   [data-index-row] {
     opacity: 1 !important;
     transform: none !important;

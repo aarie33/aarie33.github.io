@@ -43,7 +43,7 @@ const { projects, showDomain = true, id = 'the-index' } = Astro.props;
     color: var(--text-faint);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    border-bottom: 1px solid var(--rule-hover);
+    margin-bottom: var(--sp-2);
   }
 
   .index-table__rows > :global(li) {
@@ -72,7 +72,7 @@ const { projects, showDomain = true, id = 'the-index' } = Astro.props;
     width: 100%;
     height: auto;
     border-radius: var(--radius-md);
-    border: 1px solid var(--rule-hover);
+    border: 2px solid var(--accent);
     box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7);
     background: var(--ink-sunken);
   }

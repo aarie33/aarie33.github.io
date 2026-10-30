@@ -20,7 +20,9 @@ const maxYear = Math.max(...years);
   title="Project Index — Ahmad Syamsul Arifin"
   description={`All ${allProjects.length} projects, filterable by stack, role, domain, and year.`}
 >
-  <div class="shell" style="padding-top: var(--sp-8);">
+  <div class="shell" style="padding-top: var(--sp-8); position: relative;">
+    <p class="pixel stage-tag">Level select</p>
+    <img class="sprite" style="position:absolute;right:var(--gutter);top:0;width:clamp(100px,16vw,200px);height:auto" src="/iso/da/folder-pie-chart.webp" alt="" width="640" height="640" />
     <h1 class="display" style="font-size: var(--step-3); margin-bottom: var(--sp-2);">The Index</h1>
     <p class="mono" style="color: var(--text-muted); max-width: 60ch; margin-bottom: var(--sp-6);">
       {allProjects.length} projects, archived P-001 through P-{String(allProjects.length).padStart(3, '0')}.

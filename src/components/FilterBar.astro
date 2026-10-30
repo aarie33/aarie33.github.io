@@ -87,11 +87,14 @@ const { stacks, roles, domains, minYear, maxYear, total } = Astro.props;
 <style>
   .filter-bar {
     position: sticky;
-    top: 64px;
+    top: 72px;
     z-index: 40;
-    background: var(--ink);
-    border-bottom: 1px solid var(--rule);
-    padding-block: var(--sp-4);
+    background: rgba(14, 11, 38, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--rule);
+    padding: var(--sp-4) var(--gutter-mobile);
+    max-width: var(--content-max);
+    margin-inline: auto;
     display: grid;
     gap: var(--sp-4);
   }
@@ -128,7 +131,7 @@ const { stacks, roles, domains, minYear, maxYear, total } = Astro.props;
   }
 
   .filter-bar__search input:focus-visible {
-    border-color: var(--amber);
+    border-color: var(--accent);
   }
 
   .filter-bar__years {
@@ -165,8 +168,8 @@ const { stacks, roles, domains, minYear, maxYear, total } = Astro.props;
   }
 
   .filter-bar__clear:hover {
-    border-color: var(--amber-dim);
-    color: var(--amber);
+    border-color: var(--accent-dim);
+    color: var(--accent);
   }
 
   .filter-bar__group {
@@ -217,13 +220,13 @@ const { stacks, roles, domains, minYear, maxYear, total } = Astro.props;
   }
 
   .chip:has(input:checked) {
-    border-color: var(--amber-dim);
-    color: var(--amber);
-    background: var(--amber-wash);
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: var(--accent-wash);
   }
 
   .chip:has(input:focus-visible) {
-    outline: 2px solid var(--amber);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 

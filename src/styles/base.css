@@ -11,12 +11,14 @@ html {
 
 body {
   margin: 0;
+  position: relative;
+  overflow-x: clip;
   background: var(--ink);
   color: var(--text);
   font-family: var(--font-body);
   font-size: var(--step-0);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -65,10 +67,20 @@ p {
 /* Display type — headings, hero, project names */
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 0.95;
+  letter-spacing: 0.005em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+/* HUD label — tiny pixel type for game-style chrome. Never for body copy. */
+.pixel {
+  font-family: var(--font-pixel);
+  font-size: var(--step--2);
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* Utility mono — IDs, years, stack badges, metrics */
@@ -90,8 +102,9 @@ p {
 
 .prose h2 {
   font-family: var(--font-display);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.005em;
   font-size: var(--step-1);
   color: var(--text);
   margin-top: var(--sp-8);
@@ -118,24 +131,25 @@ p {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.65em;
-  width: 5px;
-  height: 1px;
-  background: var(--amber-dim);
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg) scale(0.8);
+  background: var(--accent);
 }
 
 .prose a {
-  color: var(--amber);
-  border-bottom: 1px solid var(--amber-dim);
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent-dim);
 }
 
 .prose a:hover {
-  border-color: var(--amber);
+  border-color: var(--accent);
 }
 
 /* Focus */
 :focus-visible {
-  outline: 2px solid var(--amber);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -145,13 +159,12 @@ p {
   left: var(--sp-4);
   top: -100px;
   z-index: 100;
-  background: var(--amber);
+  background: var(--accent);
   color: var(--ink);
   padding: var(--sp-2) var(--sp-4);
   border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  font-weight: 500;
+  font-family: var(--font-pixel);
+  font-size: var(--step--2);
   transition: top var(--dur-fast) var(--ease-out-expo);
 }
 
@@ -204,7 +217,7 @@ p {
 
 .link-underline:hover,
 .link-underline:focus-visible {
-  color: var(--amber);
+  color: var(--accent);
 }
 
 .link-underline:hover::after,
@@ -212,39 +225,53 @@ p {
   transform: scaleX(1);
 }
 
-/* Buttons */
+/* Buttons — chunky, pressable. The shadow is the "side" of the 3D block. */
 .btn {
+  --btn-face: var(--ink-raised);
+  --btn-side: var(--rule);
+  position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--sp-2);
   padding: var(--sp-3) var(--sp-6);
-  border: 1px solid var(--rule);
+  border: 2px solid var(--btn-side);
   border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  font-weight: 500;
+  background: var(--btn-face);
+  box-shadow: 0 var(--depth) 0 var(--btn-side);
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast);
-  min-height: 44px;
+  letter-spacing: 0.06em;
+  transform: translateY(0);
+  transition: transform var(--dur-fast) var(--ease-out-expo), box-shadow var(--dur-fast) var(--ease-out-expo),
+    filter var(--dur-fast);
+  min-height: 48px;
 }
 
 .btn:hover,
 .btn:focus-visible {
-  border-color: var(--amber);
-  color: var(--amber);
+  transform: translateY(-2px);
+  box-shadow: 0 calc(var(--depth) + 2px) 0 var(--btn-side);
+  filter: brightness(1.12);
+}
+
+.btn:active {
+  transform: translateY(var(--depth));
+  box-shadow: 0 0 0 var(--btn-side);
 }
 
 .btn-primary {
-  background: var(--amber);
-  border-color: var(--amber);
-  color: var(--ink);
+  --btn-face: var(--accent);
+  --btn-side: #6f8a12;
+  color: var(--on-accent);
 }
 
-.btn-primary:hover,
-.btn-primary:focus-visible {
-  background: transparent;
-  color: var(--amber);
+/* Press-start blink for the primary call to action */
+.btn-primary::before {
+  content: '\25B6';
+  font-size: 0.7em;
 }
 
 /* Badges */
@@ -253,20 +280,21 @@ p {
   align-items: center;
   font-family: var(--font-mono);
   font-size: var(--step--1);
-  color: var(--text-muted);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-sm);
-  padding: 2px var(--sp-2);
+  color: var(--text);
+  background: var(--ink-raised);
+  border: 1px solid var(--rule-hover);
+  border-radius: 999px;
+  padding: 2px var(--sp-3);
   white-space: nowrap;
 }
 
-/* Screenshot frame — "BrowserFrame" */
+/* Screenshot frame — "BrowserFrame" as a game cartridge screen */
 .browser-frame {
-  background: var(--ink-sunken);
-  border: 1px solid var(--rule);
+  background: var(--ink-raised);
+  border: 2px solid var(--rule-hover);
   border-radius: var(--radius-md);
-  padding: var(--sp-4);
-  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6);
+  padding: var(--sp-3);
+  box-shadow: 0 var(--depth) 0 var(--rule), 0 28px 48px -16px rgba(0, 0, 0, 0.7);
 }
 
 .browser-frame__bar {
@@ -277,24 +305,31 @@ p {
 }
 
 .browser-frame__dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--rule-hover);
+  background: var(--hot);
+}
+
+.browser-frame__dot:nth-child(2) {
+  background: var(--accent);
+}
+
+.browser-frame__dot:nth-child(3) {
+  background: var(--sky);
 }
 
 .browser-frame__url {
   flex: 1;
-  height: 6px;
+  height: 8px;
   margin-left: var(--sp-3);
-  border-radius: 3px;
+  border-radius: 4px;
   background: var(--rule);
   max-width: 240px;
 }
 
 .browser-frame img {
-  border-radius: 0 0 4px 4px;
-  filter: brightness(0.96);
+  border-radius: 6px;
   width: 100%;
 }
 
@@ -303,6 +338,83 @@ p {
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: var(--text-muted);
+}
+
+/* ---------- World: isometric grid floor behind everything ---------- */
+.world-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 80% 0%, rgba(155, 108, 255, 0.28), transparent 70%),
+    radial-gradient(50% 40% at 0% 30%, rgba(79, 209, 255, 0.12), transparent 70%),
+    var(--ink);
+  overflow: hidden;
+}
+
+.world-bg::before {
+  content: '';
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  top: 20%;
+  bottom: -60%;
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(700px) rotateX(62deg);
+  transform-origin: 50% 0;
+  opacity: 0.55;
+  mask-image: linear-gradient(to bottom, transparent, #000 25%, transparent 95%);
+  animation: floor-scroll 6s linear infinite;
+}
+
+@keyframes floor-scroll {
+  to {
+    background-position: 0 64px, 64px 0;
+  }
+}
+
+/* Pixel-bordered panel used for HUD blocks */
+.panel {
+  position: relative;
+  background: var(--ink-raised);
+  border: 2px solid var(--rule-hover);
+  border-radius: var(--radius-md);
+  box-shadow: 0 var(--depth) 0 var(--rule);
+}
+
+/* Section title with a game-stage tag above it */
+.stage-tag {
+  display: inline-block;
+  margin-bottom: var(--sp-3);
+  padding: var(--sp-1) var(--sp-3);
+  background: var(--accent);
+  color: var(--on-accent);
+  border-radius: 4px;
+  box-shadow: 0 3px 0 #6f8a12;
+}
+
+/* Isometric sprite: floats, with a contact shadow on the "floor" */
+.sprite {
+  position: relative;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  animation: bob var(--bob, 5s) ease-in-out var(--bob-delay, 0s) infinite;
+  filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.45));
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(var(--bob-h, 14px) * -1));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

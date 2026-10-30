@@ -13,7 +13,8 @@ const waHref = `https://wa.me/${waDigits}`;
 >
   <div class="shell contact">
     <header class="contact__header" data-hero-item style="animation-delay:0ms">
-      <p class="mono contact__eyebrow">Contact</p>
+      <p class="pixel stage-tag contact__eyebrow">Multiplayer</p>
+      <img class="sprite contact__sprite" src="/iso/ps/communication-skills.webp" alt="" width="640" height="640" />
       <h1 class="display contact__title">Let's talk about<br />what you're building.</h1>
     </header>
 
@@ -71,6 +72,34 @@ const waHref = `https://wa.me/${waDigits}`;
 </script>
 
 <style>
+  .contact__header {
+    position: relative;
+  }
+
+  .contact__title {
+    max-width: calc(100% - 96px);
+  }
+
+  @media (max-width: 699px) {
+    .contact__sprite {
+      width: 84px;
+    }
+  }
+
+  @media (min-width: 700px) {
+    .contact__title {
+      max-width: calc(100% - 240px);
+    }
+  }
+
+  .contact__sprite {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: clamp(110px, 20vw, 220px);
+    height: auto;
+  }
+
   .contact {
     padding-top: var(--sp-16);
     padding-bottom: var(--sp-24);
@@ -82,8 +111,6 @@ const waHref = `https://wa.me/${waDigits}`;
   }
 
   .contact__eyebrow {
-    color: var(--text-faint);
-    font-size: var(--step--1);
     margin-bottom: var(--sp-2);
   }
 

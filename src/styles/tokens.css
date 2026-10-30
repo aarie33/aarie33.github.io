@@ -1,32 +1,38 @@
 :root {
-  /* Surfaces */
-  --ink: #101318;
-  --ink-raised: #171b22;
-  --ink-sunken: #0b0d11;
-  --rule: #262c36;
-  --rule-hover: #3a424f;
+  /* Surfaces — deep indigo "night map" */
+  --ink: #0e0b26;
+  --ink-raised: #1a1642;
+  --ink-sunken: #080618;
+  --rule: #2f2a69;
+  --rule-hover: #5148b8;
 
   /* Text */
-  --text: #e9ebef;
-  --text-muted: #8e96a3;
-  --text-faint: #5b6371;
+  --text: #f4f2ff;
+  --text-muted: #b4afdc;
+  --text-faint: #8681bf;
 
-  /* Accent — single source, never used decoratively */
-  --amber: #f2c14e;
-  --amber-dim: #8a6d22;
-  --amber-wash: rgba(242, 193, 78, 0.08);
+  /* Palette — pulled from the isometric illustration set */
+  --accent: #c8f03c;
+  --accent-dim: #7d9a1f;
+  --accent-wash: rgba(200, 240, 60, 0.1);
+  --hot: #ff8a3d;
+  --violet: #9b6cff;
+  --sky: #4fd1ff;
+  --on-accent: #14102e;
 
   /* Typography */
-  --font-display: 'Anton', 'Archivo Condensed', sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-display: 'Chakra Petch', 'Outfit', sans-serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-pixel: 'Press Start 2P', 'JetBrains Mono', monospace;
 
-  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
-  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.13rem);
-  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
-  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.25rem);
-  --step-3: clamp(2rem, 1.6rem + 2vw, 3.4rem);
-  --step-4: clamp(2.6rem, 1.8rem + 4vw, 5.5rem);
+  --step--2: 0.625rem;
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --step-1: clamp(1.3rem, 1.15rem + 0.7vw, 1.7rem);
+  --step-2: clamp(1.75rem, 1.4rem + 1.5vw, 2.6rem);
+  --step-3: clamp(2.25rem, 1.6rem + 3vw, 4rem);
+  --step-4: clamp(2.6rem, 1.4rem + 4.4vw, 5rem);
 
   /* Spacing scale (4px base) */
   --sp-1: 4px;
@@ -44,11 +50,16 @@
   --content-max: 1240px;
   --gutter: 24px;
   --gutter-mobile: 16px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* 3D "chunk" depth for buttons and cards */
+  --depth: 6px;
 
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --dur-fast: 150ms;
   --dur-base: 300ms;
   --dur-slow: 600ms;

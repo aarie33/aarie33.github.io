@@ -1,9 +1,11 @@
 ---
-import '@fontsource/anton/400.css';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/chakra-petch/500.css';
+import '@fontsource/chakra-petch/700.css';
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/600.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/press-start-2p/400.css';
 import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/motion.css';
@@ -51,6 +53,7 @@ const ogImage = image ? new URL(image, Astro.site) : new URL('/og-default.png', 
     <ClientRouter />
   </head>
   <body>
+    <div class="world-bg" aria-hidden="true"></div>
     <a href="#main" class="skip-link">Skip to content</a>
     <Nav />
     <main id="main" transition:animate="fade">
@@ -84,7 +87,56 @@ const ogImage = image ? new URL(image, Astro.site) : new URL('/og-default.png', 
         items.forEach((el) => observer.observe(el));
       }
 
+      // Pointer-driven 3D: [data-tilt] cards lean toward the cursor,
+      // [data-scene] layers ([data-depth]) shift by depth for parallax.
+      function initPointer3D() {
+        const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!fine || reduceMotion) return;
+
+        document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
+          const max = Number(card.dataset.tilt) || 8;
+          card.addEventListener('pointermove', (e) => {
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            card.classList.add('is-tilting');
+            card.style.setProperty('--ry', `${x * max * 2}deg`);
+            card.style.setProperty('--rx', `${-y * max * 2}deg`);
+          });
+          card.addEventListener('pointerleave', () => {
+            card.classList.remove('is-tilting');
+            card.style.setProperty('--rx', '0deg');
+            card.style.setProperty('--ry', '0deg');
+          });
+        });
+
+        document.querySelectorAll<HTMLElement>('[data-scene]').forEach((scene) => {
+          const layers = scene.querySelectorAll<HTMLElement>('[data-depth]');
+          let frame = 0;
+          const onMove = (e: PointerEvent) => {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => {
+              const x = e.clientX / window.innerWidth - 0.5;
+              const y = e.clientY / window.innerHeight - 0.5;
+              scene.style.setProperty('--sx', `${x * 10}deg`);
+              scene.style.setProperty('--sy', `${-y * 6}deg`);
+              layers.forEach((el) => {
+                const d = Number(el.dataset.depth);
+                el.style.setProperty('--px', `${x * d * -30}px`);
+                el.style.setProperty('--py', `${y * d * -20}px`);
+              });
+            });
+          };
+          window.addEventListener('pointermove', onMove, { passive: true });
+          document.addEventListener('astro:before-swap', () => window.removeEventListener('pointermove', onMove), {
+            once: true,
+          });
+        });
+      }
+
       document.addEventListener('astro:page-load', initReveal);
+      document.addEventListener('astro:page-load', initPointer3D);
     </script>
   </body>
 </html>

@@ -39,6 +39,13 @@ const capability = [
       .sort((a, b) => b.count - a.count),
   }))
   .filter((group) => group.items.length > 0);
+
+const capabilitySprites: Record<string, string> = {
+  Backend: 'data-analysis-server',
+  Frontend: 'laptop-analytics',
+  Mobile: 'tablet-bar-chart',
+  'Infra & Data': 'database-transfer',
+};
 ---
 
 <Base
@@ -56,46 +63,116 @@ const capability = [
   }}
 >
   <section class="hero shell">
-    <p class="mono hero__eyebrow" data-hero-item style="animation-delay:0ms">P-000 / Portfolio</p>
-    <h1 class="display hero__thesis" data-hero-item style="animation-delay:60ms">
-      Senior full-stack engineer<br />at enterprise scale.
-    </h1>
-    <p class="hero__sub mono" data-hero-item style="animation-delay:140ms">
-      Ahmad Syamsul Arifin · Senior Full-Stack Engineer · 7+ years · {contact.location} ·
-      {allProjects.length} shipped projects · {domains.length} domains including {domains.slice(0, 3).join(', ')}
-    </p>
-    <div class="hero__cta" data-hero-item style="animation-delay:200ms">
-      <a href="/projects/" class="btn btn-primary">View the full index</a>
-      <a href="/contact/" class="btn">Get in touch</a>
+    <div class="hero__copy">
+      <p class="pixel stage-tag" data-hero-item style="animation-delay:0ms">Player 1 · Ready</p>
+      <h1 class="display hero__thesis" data-hero-item style="animation-delay:80ms">
+        Senior full-stack <span class="hero__hl">engineer</span> at enterprise scale.
+      </h1>
+      <p class="hero__sub" data-hero-item style="animation-delay:160ms">
+        <strong>Ahmad Syamsul Arifin</strong> — 7+ years, {allProjects.length} shipped projects across
+        {domains.length} domains, from {domains.slice(0, 3).join(', ')} to telecom systems serving millions.
+        Based in {contact.location}.
+      </p>
+      <div class="hero__cta" data-hero-item style="animation-delay:240ms">
+        <a href="/projects/" class="btn btn-primary">Start: view the index</a>
+        <a href="/contact/" class="btn">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="scene" data-scene aria-hidden="true">
+      <div class="scene__tilt">
+        <div class="scene__floor"></div>
+        <div class="scene__floor scene__floor--2"></div>
+
+        <div class="scene__layer" data-depth="0.4" style="--x:50%;--y:46%;--w:60%;--z:3">
+          <div data-spawn style="--spawn-delay:200ms">
+            <img class="sprite" style="--bob:6s" src="/iso/da/laptop-analytics.webp" alt="" width="640" height="480" />
+          </div>
+        </div>
+        <div class="scene__layer" data-depth="1" style="--x:18%;--y:30%;--w:30%;--z:2">
+          <div data-spawn style="--spawn-delay:420ms">
+            <img class="sprite" style="--bob:5s;--bob-delay:-1s" src="/iso/da/database-transfer.webp" alt="" width="640" height="640" />
+          </div>
+        </div>
+        <div class="scene__layer" data-depth="1.4" style="--x:84%;--y:26%;--w:28%;--z:4">
+          <div data-spawn style="--spawn-delay:560ms">
+            <img class="sprite" style="--bob:4.5s;--bob-delay:-2s" src="/iso/da/donut-chart.webp" alt="" width="640" height="640" />
+          </div>
+        </div>
+        <div class="scene__layer" data-depth="0.8" style="--x:82%;--y:72%;--w:30%;--z:5">
+          <div data-spawn style="--spawn-delay:700ms">
+            <img class="sprite" style="--bob:5.5s;--bob-delay:-3s" src="/iso/da/data-analysis-server.webp" alt="" width="640" height="640" />
+          </div>
+        </div>
+        <div class="scene__layer" data-depth="1.2" style="--x:16%;--y:74%;--w:22%;--z:5">
+          <div data-spawn style="--spawn-delay:840ms">
+            <img class="sprite" style="--bob:4s;--bob-delay:-0.5s;--bob-h:20px" src="/iso/da/data-funnel.webp" alt="" width="640" height="640" />
+          </div>
+        </div>
+        <div class="scene__layer" data-depth="1.8" style="--x:50%;--y:8%;--w:16%;--z:6">
+          <div data-spawn style="--spawn-delay:980ms">
+            <img class="sprite" style="--bob:3.5s;--bob-delay:-1.5s;--bob-h:22px" src="/iso/da/code-calendar.webp" alt="" width="640" height="640" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell hud" data-reveal data-reveal-stagger>
+    <div class="panel hud__cell" style="--n:0">
+      <p class="pixel hud__label">Level</p>
+      <p class="display hud__value">7+<span class="hud__unit">yrs</span></p>
+    </div>
+    <div class="panel hud__cell" style="--n:1">
+      <p class="pixel hud__label">Quests cleared</p>
+      <p class="display hud__value">{allProjects.length}</p>
+    </div>
+    <div class="panel hud__cell" style="--n:2">
+      <p class="pixel hud__label">Worlds</p>
+      <p class="display hud__value">{domains.length}<span class="hud__unit">domains</span></p>
+    </div>
+    <div class="panel hud__cell hud__cell--xp" style="--n:3">
+      <p class="pixel hud__label">XP · Enterprise scale</p>
+      <div class="xp" role="img" aria-label="Experience bar, nearly full">
+        <div class="xp__fill"></div>
+      </div>
     </div>
   </section>
 
   <section class="section shell">
-    <div class="section__head">
-      <h2 class="display section__title">The Index</h2>
-      <a href="/projects/" class="link-underline mono">All {allProjects.length} projects &rarr;</a>
+    <div class="section__head" data-reveal>
+      <div>
+        <p class="pixel stage-tag">Stage 1</p>
+        <h2 class="display section__title">Latest quests</h2>
+      </div>
+      <a href="/projects/" class="link-underline section__all">All {allProjects.length} projects &rarr;</a>
     </div>
     <IndexTable projects={previewProjects} id="home-index-preview" />
   </section>
 
   <section class="section shell">
     <div class="section__head" data-reveal>
-      <h2 class="display section__title">Featured work</h2>
+      <div>
+        <p class="pixel stage-tag">Stage 2</p>
+        <h2 class="display section__title">Boss fights</h2>
+      </div>
     </div>
     <div class="featured-grid">
-      {featuredProjects.map((project) => (
-        <a href={`/projects/${project.id}/`} class="featured-card" data-reveal>
-          <BrowserFrame
-            src={project.data.cover}
-            caption={project.data.tagline}
-            sizes="(min-width: 1024px) 380px, 100vw"
-            showCaption={false}
-          />
-          <div class="featured-card__body">
-            <p class="mono featured-card__meta">{project.data.id} · {project.data.year} · {project.data.domain}</p>
-            <h3 class="display featured-card__title">{project.data.title}</h3>
-            <p class="featured-card__tagline">{project.data.tagline}</p>
-            {project.data.metrics.length > 0 && <MetricGrid metrics={project.data.metrics.slice(0, 2)} />}
+      {featuredProjects.map((project, i) => (
+        <a href={`/projects/${project.id}/`} class="featured-card" data-reveal style={`transition-delay:${i * 90}ms`}>
+          <div class="featured-card__tilt" data-tilt="7">
+            <BrowserFrame
+              src={project.data.cover}
+              caption={project.data.tagline}
+              sizes="(min-width: 1024px) 380px, 100vw"
+              showCaption={false}
+            />
+            <div class="featured-card__body">
+              <p class="pixel featured-card__meta">{project.data.id} · {project.data.year} · {project.data.domain}</p>
+              <h3 class="display featured-card__title">{project.data.title}</h3>
+              <p class="featured-card__tagline">{project.data.tagline}</p>
+              {project.data.metrics.length > 0 && <MetricGrid metrics={project.data.metrics.slice(0, 2)} />}
+            </div>
           </div>
         </a>
       ))}
@@ -104,57 +181,84 @@ const capability = [
 
   <section class="section shell">
     <div class="section__head" data-reveal>
-      <h2 class="display section__title">Capability</h2>
+      <div>
+        <p class="pixel stage-tag">Stage 3</p>
+        <h2 class="display section__title">Skill tree</h2>
+      </div>
     </div>
-    <div class="capability-grid" data-reveal>
-      {capability.map((group) => (
-        <div class="capability-group">
-          <h3 class="mono capability-group__label">{group.label}</h3>
-          <ul class="capability-group__items">
-            {group.items.map((item) => (
-              <li>
-                <span>{item.name}</span>
-                <span class="mono capability-group__count">{item.count}&times;</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <div class="capability-grid" data-reveal data-reveal-stagger>
+      {capability.map((group, gi) => {
+        const max = Math.max(...group.items.map((i) => i.count));
+        return (
+          <div class="panel capability-group" style={`--n:${gi}`} data-tilt="5">
+            <img
+              class="sprite capability-group__sprite"
+              style={`--bob:${4 + gi * 0.6}s;--bob-delay:-${gi}s`}
+              src={`/iso/da/${capabilitySprites[group.label] ?? 'data-check'}.webp`}
+              alt=""
+              width="640"
+              height="640"
+              loading="lazy"
+            />
+            <h3 class="pixel capability-group__label">{group.label}</h3>
+            <ul class="capability-group__items">
+              {group.items.map((item) => (
+                <li>
+                  <span class="capability-group__name">{item.name}</span>
+                  <span class="mono capability-group__count">{item.count}&times;</span>
+                  <span class="capability-group__bar" style={`--v:${(item.count / max) * 100}%`} aria-hidden="true" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
     </div>
   </section>
 
   <section class="section shell cta-band" data-reveal>
-    <h2 class="display cta-band__title">35 projects.<br />One archive.</h2>
+    <img class="sprite cta-band__sprite cta-band__sprite--l" style="--bob:5s" src="/iso/da/paper-stacks.webp" alt="" width="640" height="640" loading="lazy" />
+    <img class="sprite cta-band__sprite cta-band__sprite--r" style="--bob:4s;--bob-delay:-2s" src="/iso/da/monitor-search.webp" alt="" width="640" height="640" loading="lazy" />
+    <p class="pixel stage-tag">Final stage</p>
+    <h2 class="display cta-band__title">{allProjects.length} projects.<br />One archive.</h2>
     <div class="hero__cta">
       <a href="/projects/" class="btn btn-primary">Browse the index</a>
-      <a href="/about/" class="btn">About</a>
+      <a href="/about/" class="btn">About me</a>
     </div>
   </section>
 </Base>
 
 <style>
   .hero {
-    padding-top: var(--sp-24);
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--sp-8);
+    padding-top: var(--sp-12);
     padding-bottom: var(--sp-16);
-  }
-
-  .hero__eyebrow {
-    color: var(--text-faint);
-    font-size: var(--step--1);
-    margin-bottom: var(--sp-4);
+    min-height: min(760px, calc(100svh - 72px));
   }
 
   .hero__thesis {
-    font-size: var(--step-4);
+    font-size: clamp(2.4rem, 1.3rem + 3.6vw, 4.5rem);
     margin-bottom: var(--sp-6);
-    max-width: 16ch;
+  }
+
+  .hero__hl {
+    color: var(--accent);
+    text-shadow: 0 4px 0 #6f8a12, 0 0 40px rgba(200, 240, 60, 0.35);
   }
 
   .hero__sub {
     color: var(--text-muted);
     font-size: var(--step-0);
-    max-width: 62ch;
+    max-width: 52ch;
     margin-bottom: var(--sp-8);
+  }
+
+  .hero__sub strong {
+    color: var(--text);
+    font-weight: 600;
   }
 
   .hero__cta {
@@ -163,28 +267,204 @@ const capability = [
     gap: var(--sp-4);
   }
 
+  /* ---------- Isometric scene ---------- */
+  .scene {
+    --sx: 0deg;
+    --sy: 0deg;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    perspective: 1100px;
+  }
+
+  .scene__tilt {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(var(--sx)) rotateX(var(--sy));
+    transition: transform 300ms var(--ease-out-expo);
+  }
+
+  .scene__floor {
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    width: 78%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    transform: scaleY(0.5) rotate(45deg);
+    border-radius: 12%;
+    background:
+      linear-gradient(var(--rule-hover) 2px, transparent 2px) 0 0 / 25% 25%,
+      linear-gradient(90deg, var(--rule-hover) 2px, transparent 2px) 0 0 / 25% 25%,
+      var(--ink-raised);
+    border: 3px solid var(--violet);
+    /* stacked offsets read as the slab's thickness */
+    box-shadow:
+      0 14px 0 -2px #3b2f9a, 0 28px 0 -4px #2a2272, 0 60px 80px rgba(0, 0, 0, 0.6),
+      0 0 60px rgba(155, 108, 255, 0.35);
+    animation: floor-glow 4s ease-in-out infinite;
+  }
+
+  .scene__floor--2 {
+    width: 96%;
+    top: 62%;
+    z-index: -1;
+    background: none;
+    border: 2px dashed var(--rule-hover);
+    box-shadow: none;
+    animation: floor-spin 24s linear infinite;
+  }
+
+  @keyframes floor-glow {
+    50% {
+      border-color: var(--sky);
+    }
+  }
+
+  @keyframes floor-spin {
+    to {
+      transform: scaleY(0.5) rotate(405deg);
+    }
+  }
+
+  .scene__layer {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+    z-index: var(--z);
+    translate: -50% -50%;
+    transform: translate3d(var(--px, 0), var(--py, 0), 0);
+    transition: transform 300ms var(--ease-out-expo);
+  }
+
+  .scene__layer img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------- HUD ---------- */
+  .hud {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.6fr);
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-8);
+  }
+
+  .hud__cell {
+    padding: var(--sp-4) var(--sp-6);
+  }
+
+  .hud__label {
+    color: var(--text-faint);
+    margin-bottom: var(--sp-2);
+  }
+
+  .hud__value {
+    font-size: var(--step-3);
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .hud__unit {
+    margin-left: var(--sp-2);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-weight: 400;
+    color: var(--text-muted);
+    text-transform: none;
+  }
+
+  .hud__cell--xp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .xp {
+    height: 22px;
+    padding: 3px;
+    border: 2px solid var(--rule-hover);
+    border-radius: 999px;
+    background: var(--ink-sunken);
+    overflow: hidden;
+  }
+
+  .xp__fill {
+    height: 100%;
+    width: 92%;
+    border-radius: 999px;
+    background: repeating-linear-gradient(-45deg, var(--accent) 0 10px, #a6cc22 10px 20px);
+    background-size: 28px 28px;
+    transform-origin: left;
+    animation: xp-fill 1.6s var(--ease-out-expo) 0.4s backwards, xp-stripes 1s linear infinite;
+  }
+
+  @keyframes xp-fill {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes xp-stripes {
+    to {
+      background-position: 28px 0;
+    }
+  }
+
+  /* ---------- Sections ---------- */
   .section__head {
     display: flex;
-    align-items: baseline;
+    align-items: flex-end;
     justify-content: space-between;
     gap: var(--sp-4);
-    margin-bottom: var(--sp-6);
+    margin-bottom: var(--sp-8);
   }
 
   .section__title {
-    font-size: var(--step-2);
+    font-size: var(--step-3);
+  }
+
+  .section__all {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: var(--step--1);
+    color: var(--text-muted);
   }
 
   .featured-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--sp-8);
   }
 
   .featured-card {
+    display: block;
+    perspective: 900px;
+  }
+
+  .featured-card__tilt {
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
+    padding: var(--sp-4);
+    background: var(--ink-raised);
+    border: 2px solid var(--rule-hover);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 var(--depth) 0 var(--rule), 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+  }
+
+  .featured-card:hover .featured-card__tilt {
+    border-color: var(--accent);
+    box-shadow: 0 var(--depth) 0 var(--accent-dim), 0 0 40px rgba(200, 240, 60, 0.18);
+  }
+
+  .featured-card__tilt :global(.browser-frame) {
+    transform: translateZ(30px);
+    box-shadow: 0 var(--depth) 0 var(--rule), 0 20px 30px -10px rgba(0, 0, 0, 0.6);
   }
 
   .featured-card :global(.browser-frame img) {
@@ -198,13 +478,17 @@ const capability = [
   }
 
   .featured-card :global(.metric-grid__value) {
-    font-size: var(--step-1);
+    font-size: var(--step-0);
+  }
+
+  .featured-card__body {
+    padding: var(--sp-2) var(--sp-2) var(--sp-3);
+    transform: translateZ(16px);
   }
 
   .featured-card__meta {
-    font-size: var(--step--1);
-    color: var(--text-faint);
-    margin-bottom: var(--sp-1);
+    color: var(--hot);
+    margin-bottom: var(--sp-2);
   }
 
   .featured-card__title {
@@ -220,30 +504,43 @@ const capability = [
 
   .capability-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--sp-8);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--sp-6);
+    padding-top: var(--sp-12);
+  }
+
+  .capability-group {
+    padding: var(--sp-6);
+    padding-top: var(--sp-12);
+  }
+
+  .capability-group__sprite {
+    position: absolute;
+    top: -48px;
+    right: var(--sp-4);
+    width: 104px;
+    height: auto;
+    --bob-h: 10px;
   }
 
   .capability-group__label {
-    font-size: var(--step--1);
-    color: var(--amber);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    color: var(--accent);
     margin-bottom: var(--sp-4);
-    padding-bottom: var(--sp-2);
-    border-bottom: 1px solid var(--rule);
   }
 
   .capability-group__items {
     display: grid;
-    gap: var(--sp-2);
+    gap: var(--sp-3);
   }
 
   .capability-group__items li {
-    display: flex;
-    justify-content: space-between;
-    padding-block: var(--sp-1);
-    color: var(--text);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px var(--sp-3);
+  }
+
+  .capability-group__name {
+    font-weight: 600;
   }
 
   .capability-group__count {
@@ -251,9 +548,28 @@ const capability = [
     font-size: var(--step--1);
   }
 
+  .capability-group__bar {
+    grid-column: 1 / -1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--ink-sunken);
+    overflow: hidden;
+  }
+
+  .capability-group__bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: var(--v);
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--violet), var(--sky));
+    transform-origin: left;
+    animation: xp-fill 1.2s var(--ease-out-expo) 0.3s backwards;
+  }
+
   .cta-band {
+    position: relative;
     text-align: center;
-    border-top: 1px solid var(--rule);
     padding-block: var(--sp-24);
   }
 
@@ -266,10 +582,43 @@ const capability = [
     justify-content: center;
   }
 
-  @media (max-width: 480px) {
-    .hero__thesis {
-      font-size: var(--step-3);
-      max-width: none;
+  .cta-band__sprite {
+    position: absolute;
+    width: clamp(110px, 18vw, 240px);
+    height: auto;
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  .cta-band__sprite--l {
+    left: 0;
+  }
+
+  .cta-band__sprite--r {
+    right: 0;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    .scene {
+      max-width: 520px;
+      margin-inline: auto;
+    }
+
+    .hud {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hud__cell--xp {
+      grid-column: 1 / -1;
+    }
+
+    .cta-band__sprite {
+      display: none;
     }
   }
 </style>
